@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="create">
+        <item>
+            create table content(
+                id integer primary key autoincrement,
+                book_name varchar(4) not null,
+                chapter_nr integer not null,
+                verse_nr integer not null,
+                word_nr integer not null,
+                word varchar(20) not null,
+                functional varchar(30) not null,
+                strongs varchar(20) not null,
+                lemma varchar(20) not null
+            )
+        </item>
+    </string-array>
+</resources>
