@@ -15,4 +15,13 @@
             )
         </item>
     </string-array>
+    <string-array name="createStrongs">
+        <item>
+            create table strongs(
+                id integer primary key autoincrement,
+                nr integer not null,
+                text varchar(200) not null
+            )
+        </item>
+    </string-array>
 </resources>

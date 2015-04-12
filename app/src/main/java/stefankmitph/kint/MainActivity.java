@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +28,8 @@ import stefankmitph.model.SQLiteHelper;
 public class MainActivity extends ActionBarActivity {
 
     final boolean doInsert = false;
+    final boolean createStrongs = false;
+    final boolean insertStrongs = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +39,37 @@ public class MainActivity extends ActionBarActivity {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/palab.ttf");
 
         SQLiteOpenHelper helper = new SQLiteHelper(this);
-        SQLiteDatabase database = helper.getWritableDatabase();
+        final SQLiteDatabase database = helper.getWritableDatabase();
 
         //database.execSQL("drop table if exists content");
+
+        if(createStrongs) {
+            String[] strings = getResources().getStringArray(R.array.createStrongs);
+            String listString = "";
+
+            for (String s : strings)
+            {
+                listString += s;
+            }
+
+            database.execSQL(listString);
+        }
+
+        if(insertStrongs) {
+            database.execSQL("delete from strongs");
+
+
+            try {
+                InputStream stream = getAssets().open("nestle/smallstrongs.sql");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                String line;
+                while((line = reader.readLine()) != null) {
+                    database.execSQL(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         if(doInsert)
             database.execSQL("delete from content");
@@ -81,10 +113,28 @@ public class MainActivity extends ActionBarActivity {
                             LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            TextView textViewStrongs = new TextView(this);
+            final TextView textViewStrongs = new TextView(this);
             textViewStrongs.setText(strongs.get(i));
             textViewStrongs.setTextSize(10.0f);
             textViewStrongs.setTextColor(Color.rgb(0, 146, 242));
+            textViewStrongs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String text = textViewStrongs.getText().toString();
+                    String[] parts = text.split("\\&");
+                    String strongs = "";
+                    if(parts.length > 1) {
+
+                    } else {
+                        Cursor result = database.rawQuery(String.format("select * from strongs where nr = %s", text), null);
+                        while(result.moveToNext())
+                            strongs = result.getString(2);
+                    }
+
+                    Toast toast = Toast.makeText(v.getContext(), strongs, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
 
             TextView textView2 = new TextView(this);
             textView2.setText(words.get(i));
