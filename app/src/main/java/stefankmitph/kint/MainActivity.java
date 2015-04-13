@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import stefankmitph.model.DataBaseHelper;
 import stefankmitph.model.SQLiteHelper;
 
 
@@ -38,57 +39,21 @@ public class MainActivity extends ActionBarActivity {
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/palab.ttf");
 
-        SQLiteOpenHelper helper = new SQLiteHelper(this);
-        final SQLiteDatabase database = helper.getWritableDatabase();
+        DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
+        SQLiteDatabase database = null;
 
-        //database.execSQL("drop table if exists content");
-
-        if(createStrongs) {
-            String[] strings = getResources().getStringArray(R.array.createStrongs);
-            String listString = "";
-
-            for (String s : strings)
-            {
-                listString += s;
-            }
-
-            database.execSQL(listString);
+        try {
+            dataBaseHelper.createDataBase();
+            database = dataBaseHelper.getReadableDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        if(insertStrongs) {
-            database.execSQL("delete from strongs");
-
-
-            try {
-                InputStream stream = getAssets().open("nestle/smallstrongs.sql");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                String line;
-                while((line = reader.readLine()) != null) {
-                    database.execSQL(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if(doInsert)
-            database.execSQL("delete from content");
-
-        if(doInsert) {
-            try {
-                InputStream stream = getAssets().open("nestle/nestle1904.sql");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                String line;
-                while((line = reader.readLine()) != null) {
-                    database.execSQL(line + ";");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+        assert database != null;
 
         Cursor result = database.rawQuery("select * from content where book_name = 'John' and chapter_nr = 1 and verse_nr = 1", null);
+
+        SQLiteOpenHelper helper = new SQLiteHelper(this);
 
         List<String> words = new ArrayList<String>();
         List<String> strongs = new ArrayList<String>();
@@ -117,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
             textViewStrongs.setText(strongs.get(i));
             textViewStrongs.setTextSize(10.0f);
             textViewStrongs.setTextColor(Color.rgb(0, 146, 242));
+            final SQLiteDatabase finalDatabase = database;
             textViewStrongs.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
                     if(parts.length > 1) {
 
                     } else {
-                        Cursor result = database.rawQuery(String.format("select * from strongs where nr = %s", text), null);
+                        Cursor result = finalDatabase.rawQuery(String.format("select * from strongs where nr = %s", text), null);
                         while(result.moveToNext())
                             strongs = result.getString(2);
                     }
