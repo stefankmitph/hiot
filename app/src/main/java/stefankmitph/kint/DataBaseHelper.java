@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import stefankmitph.model.SQLiteDBDeploy;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     private static String DB_PATH = "/data/data/stefankmitph.app1/databases/";
@@ -137,7 +139,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override

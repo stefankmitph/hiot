@@ -38,15 +38,29 @@ public class BookNavigator {
             int idx = cursor.getPosition();
 
 
-            words[idx] = new Word(
-                    cursor.getString(1),
-                    cursor.getInt(2),
-                    cursor.getInt(3),
-                    cursor.getInt(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8));
+            String book_name = cursor.getString(1);
+            int chapter_nr = cursor.getInt(2);
+            int verse_nr = cursor.getInt(3);
+            int word_nr = cursor.getInt(4);
+            String word = cursor.getString(5);
+            String functional = cursor.getString(6);
+            String strongs = cursor.getString(7);
+            String lemma = cursor.getString(8);
+
+            String[] split = strongs.split("\\&");
+            strongs = split[0];
+
+            Cursor concCursor = database.rawQuery(
+                    String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d and strongs = '%s'",
+                            book, chapter_nr, verse_nr, strongs), null);
+
+            String concordance = "";
+            while(concCursor.moveToNext()) {
+                concordance = concCursor.getString(5);
+            }
+
+            words[idx] = new Word(book_name, chapter_nr, verse_nr, word_nr, word, functional, strongs, lemma, concordance);
+
         }
 
         return words;

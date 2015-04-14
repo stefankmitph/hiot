@@ -101,6 +101,7 @@ public class VerseFragment extends android.support.v4.app.Fragment {
                         FlowLayout.LayoutParams.MATCH_PARENT,
                         FlowLayout.LayoutParams.MATCH_PARENT
                 ));
+        layout.setPadding(10,10,10,10);
 
         for(int i = 0; i < words.length; i++) {
             Word word = words[i];
@@ -143,8 +144,9 @@ public class VerseFragment extends android.support.v4.app.Fragment {
             textView2.setTextSize(16.0f);
 
             TextView textView3 = new TextView(context);
-            textView3.setText("line3");
-
+            textView3.setText(word.getConcordance());
+            textView3.setTextColor(Color.rgb(213,85,0));
+            textView3.setTextSize(14.0f);
 
             TextView textViewFunctional = new TextView(context);
             textViewFunctional.setText(word.getFunctional());
@@ -158,7 +160,7 @@ public class VerseFragment extends android.support.v4.app.Fragment {
 
             layout.addView(linearLayout);
         }
-        view.addView(layout);
+        view.addView(layout, 0);
         return view;
     }
 }

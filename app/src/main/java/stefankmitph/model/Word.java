@@ -13,6 +13,7 @@ public class Word {
     private String functional;
     private String strongs;
     private String lemma;
+    private String concordance;
 
     public Word(String book,
                 int chapter,
@@ -21,7 +22,8 @@ public class Word {
                 String word,
                 String functional,
                 String strongs,
-                String lemma) {
+                String lemma,
+                String concordance) {
 
         this.book = book;
         this.chapter = chapter;
@@ -31,6 +33,7 @@ public class Word {
         this.functional = functional;
         this.strongs = strongs;
         this.lemma = lemma;
+        this.concordance = concordance;
     }
 
     public String getLemma() {
@@ -63,5 +66,9 @@ public class Word {
 
     public String getBook() {
         return book;
+    }
+
+    public String getConcordance() {
+        return concordance;
     }
 }
