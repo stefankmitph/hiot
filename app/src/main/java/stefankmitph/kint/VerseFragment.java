@@ -49,6 +49,9 @@ public class VerseFragment extends android.support.v4.app.Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/palab.ttf");
+
         try
         {
             provider = (ActivityObjectProvider) activity;
