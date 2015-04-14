@@ -1,67 +1,81 @@
 package stefankmitph.kint;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.provider.UserDictionary;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import stefankmitph.model.BookNavigator;
-import stefankmitph.model.SQLiteHelper;
 import stefankmitph.model.Word;
 
 /**
  * Created by KumpitschS on 14.04.2015.
  */
-public class MyPagerAdapter extends PagerAdapter{
-    private SQLiteDatabase database;
-    private Typeface typeface;
+public class VerseFragment extends android.support.v4.app.Fragment {
+
     private String book;
     private int chapter;
-    private BookNavigator navigator;
+    private int verse;
     private Word[] words;
+    private BookNavigator navigator;
+    private Typeface typeface;
+    private SQLiteDatabase database;
+    private ActivityObjectProvider provider;
 
-    public MyPagerAdapter(Context context, SQLiteDatabase database, String book, int chapter) {
-        this.typeface = Typeface.createFromAsset(context.getAssets(), "fonts/palab.ttf");
-        this.database = database;
+    public static VerseFragment newInstance(String book, int chapter, int verse) {
+        VerseFragment fragment = new VerseFragment();
+        fragment.setRetainInstance(true);
+        Bundle args = new Bundle();
 
-        this.book = book;
-        this.chapter = chapter;
+        args.putString("book", book);
+        args.putInt("chapter", chapter);
+        args.putInt("verse", verse);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try
+        {
+            provider = (ActivityObjectProvider) activity;
+        } catch(ClassCastException e) {
+            throw new RuntimeException("it ain't a Provider");
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        book = getArguments().getString("book");
+        chapter = getArguments().getInt("chapter");
+        verse = getArguments().getInt("verse");
+
+        database = provider.getDatabase();
 
         navigator = new BookNavigator(database);
+        words = navigator.getVerse(book, chapter, verse);
     }
 
     @Override
-    public int getCount() {
-        //return 3;
-        return navigator.getVerseCount(book, chapter);
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == ((View)object);
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = container.getContext();
+
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.activity_fragment, container, false);
 
         AsyncTask<Object, Void, Word[]> loadTask = new AsyncTask<Object, Void, Word[]>() {
             @Override
@@ -76,14 +90,14 @@ public class MyPagerAdapter extends PagerAdapter{
             }
         };
 
-        loadTask.execute(book, chapter, position + 1);
+        //loadTask.execute(book, chapter, verse);
 
         FlowLayout layout = new FlowLayout(context, null);
         layout.setLayoutParams(
                 new FlowLayout.LayoutParams(
                         FlowLayout.LayoutParams.MATCH_PARENT,
                         FlowLayout.LayoutParams.MATCH_PARENT
-                        ));
+                ));
 
         for(int i = 0; i < words.length; i++) {
             Word word = words[i];
@@ -100,7 +114,7 @@ public class MyPagerAdapter extends PagerAdapter{
             textViewStrongs.setText(word.getStrongs());
             textViewStrongs.setTextSize(10.0f);
             textViewStrongs.setTextColor(Color.rgb(0, 146, 242));
-            final SQLiteDatabase finalDatabase = database;
+            //final SQLiteDatabase finalDatabase = database;
             textViewStrongs.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,9 +124,9 @@ public class MyPagerAdapter extends PagerAdapter{
                     if (parts.length > 1) {
 
                     } else {
-                        Cursor result1 = finalDatabase.rawQuery(String.format("select * from strongs where nr = %s", text), null);
-                        while (result1.moveToNext())
-                            strongs1 = result1.getString(2);
+                        //Cursor result1 = finalDatabase.rawQuery(String.format("select * from strongs where nr = %s", text), null);
+                        //while (result1.moveToNext())
+                        //    strongs1 = result1.getString(2);
                     }
 
                     Toast toast = Toast.makeText(v.getContext(), strongs1, Toast.LENGTH_LONG);
@@ -141,12 +155,7 @@ public class MyPagerAdapter extends PagerAdapter{
 
             layout.addView(linearLayout);
         }
-        ((ViewPager) container).addView(layout, 0);
-        return layout;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager) container).removeView((View) object);
+        view.addView(layout);
+        return view;
     }
 }

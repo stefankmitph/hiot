@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,17 +27,21 @@ import java.util.List;
 import stefankmitph.model.SQLiteHelper;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ActivityObjectProvider {
+
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SQLiteDatabase database = initializeDatabase(this);
+        this.database = initializeDatabase(this);
 
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database);
+        //MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database, "John", 1);
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
+        myPager.setOffscreenPageLimit(50);
         myPager.setAdapter(myPagerAdapter);
         myPager.setCurrentItem(0);
     }
@@ -50,6 +57,28 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
         return database;
+    }
+
+    @Override
+    public SQLiteDatabase getDatabase() {
+        return this.database;
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return VerseFragment.newInstance("John", 1, position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            return 50;
+        }
     }
 
 
