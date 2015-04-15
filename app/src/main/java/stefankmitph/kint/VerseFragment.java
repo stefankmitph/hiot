@@ -1,6 +1,7 @@
 package stefankmitph.kint;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,7 +38,8 @@ public class VerseFragment extends Fragment {
     private Typeface typeface;
     private SQLiteDatabase database;
     private ActivityObjectProvider provider;
-    //private ProgressBar bar;
+    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
 
     private View contentView;
 
@@ -54,6 +56,7 @@ public class VerseFragment extends Fragment {
         // Setup text for empty content
         //setEmptyText(R.string.empty);
         //obtainData();
+
     }
 
     public static VerseFragment newInstance(String book, int chapter, int verse) {
@@ -72,6 +75,10 @@ public class VerseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        progressDialog = new ProgressDialog(activity, ProgressDialog.THEME_HOLO_DARK);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
 
         this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/palab.ttf");
 
@@ -102,17 +109,11 @@ public class VerseFragment extends Fragment {
         }
     }
 
-    private void obtainData() {
-        // Show indeterminate progress
-        //setContentShown(false);
-
-        mHandler = new Handler();
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = container.getContext();
+
+        //progressBar.setVisibility(View.VISIBLE);
 
         contentView = inflater.inflate(R.layout.activity_fragment, null);
 
@@ -136,8 +137,8 @@ public class VerseFragment extends Fragment {
                     textViewWord.setText(word.getWord());
                 }
 
-                //if(isShown)
-                    //setContentShown(true);
+                //progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         };
 
