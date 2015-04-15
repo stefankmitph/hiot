@@ -2,6 +2,7 @@ package stefankmitph.model;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.provider.UserDictionary;
 
 /**
@@ -23,6 +24,17 @@ public class BookNavigator {
             count = cursor.getInt(0);
         }
         return count;
+    }
+
+    public AsyncTask<Object, Void, Word[]> load(String book, int chapter) {
+        AsyncTask<Object, Void, Word[]> loadTask = new AsyncTask<Object, Void, Word[]>() {
+
+            @Override
+            protected Word[] doInBackground(Object... params) {
+                return new Word[0];
+            }
+        };
+        return loadTask.execute();
     }
 
     public Word[] getVerse(String book, int chapter, int verse) {

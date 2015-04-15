@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android">
+    <shape
+        android:innerRadiusRatio="3"
+        android:shape="ring"
+        android:thicknessRatio="8"
+        android:useLevel="false" >
+        <size
+            android:height="48dip"
+            android:width="48dip" />
+
+        <gradient
+            android:centerColor="@color/abc_search_url_text_normal"
+            android:centerY="0.50"
+            android:endColor="@color/material_deep_teal_500"
+            android:startColor="@color/accent_material_dark"
+            android:type="sweep"
+            android:useLevel="false" />
+    </shape>
+
+</rotate>
