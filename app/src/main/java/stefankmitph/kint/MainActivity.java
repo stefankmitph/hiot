@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,7 +28,7 @@ import java.util.List;
 import stefankmitph.model.SQLiteHelper;
 
 
-public class MainActivity extends ActionBarActivity implements ActivityObjectProvider {
+public class MainActivity extends ActionBarActivity implements ActivityObjectProvider, FragmentSelection.OnFragmentInteractionListener {
 
     private SQLiteDatabase database;
 
@@ -64,6 +65,11 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         return this.database;
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
@@ -72,7 +78,14 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         @Override
         public Fragment getItem(int position) {
-            return VerseFragment.newInstance("John", 1, position + 1);
+            switch(position)
+            {
+                //case 0:
+                //    return FragmentSelection.newInstance("test", "banana");
+                default:
+                    return VerseFragment.newInstance("John", 1, position + 1);
+
+            }
         }
 
         @Override
