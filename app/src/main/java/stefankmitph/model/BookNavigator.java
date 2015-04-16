@@ -59,16 +59,55 @@ public class BookNavigator {
             String strongs = cursor.getString(7);
             String lemma = cursor.getString(8);
 
+
             String[] split = strongs.split("\\&");
+            /*for(String s : split) {
+
+            }*/
+
             strongs = split[0];
 
             Cursor concCursor = database.rawQuery(
                     String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d and strongs = '%s'",
                             book, chapter_nr, verse_nr, strongs), null);
 
+
             String concordance = "";
-            while(concCursor.moveToNext()) {
-                concordance = concCursor.getString(5);
+            if(concCursor.getCount() > 0) {
+                while(concCursor.moveToNext()) {
+                    concordance = concCursor.getString(5);
+                }
+            } else {
+                Cursor cursorRef = database.rawQuery(String.format("select * from strongsref where strongs = %d", Integer.parseInt(strongs)), null);
+                if(cursorRef.getCount() > 0) {
+                    if(!cursorRef.moveToNext())
+                        break;
+
+                    String refs = cursorRef.getString(2); // ref
+                    if(refs != null && !refs.isEmpty()) {
+                        String[] refparts = refs.split("\\,");
+
+
+                        for (String ref : refparts) {
+                            Cursor getRef = database.rawQuery(String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d and strongs = %s",
+                                    book_name,
+                                    chapter_nr,
+                                    verse_nr,
+                                    ref), null);
+
+                            if (getRef.getCount() > 0) {
+                                if (!getRef.moveToNext())
+                                    break;
+
+                                concordance = getRef.getString(5); // text
+                            }
+                        }
+                    } else {
+                        concordance = "";
+                    }
+                }
+
+                //Cursor cursor1 = database.rawQuery(String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d", book, chapter_nr, verse_nr), null);
             }
 
             words[idx] = new Word(book_name, chapter_nr, verse_nr, word_nr, word, functional, strongs, lemma, concordance);
