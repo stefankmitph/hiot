@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         //MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database, "John", 1);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
-        myPager.setOffscreenPageLimit(3);
+        myPager.setOffscreenPageLimit(5);
         myPager.setAdapter(myPagerAdapter);
         myPager.setCurrentItem(0);
     }

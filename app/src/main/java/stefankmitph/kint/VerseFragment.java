@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -76,11 +77,22 @@ public class VerseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        progressDialog = new ProgressDialog(activity, ProgressDialog.THEME_HOLO_DARK);
+        /*progressDialog = new ProgressDialog(activity, ProgressDialog.THEME_HOLO_DARK);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
+*/
+        progressBar = (ProgressBar)activity.findViewById(R.id.progressBar1);
 
-        this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/palab.ttf");
+
+        progressBar.setVisibility(View.VISIBLE);
+        /*if (progressDialog == null) {
+            progressDialog = createProgressDialog(activity);
+            progressDialog.show();
+        } else {
+            progressDialog.show();
+        }*/
+
+        this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Cardo104s.ttf");
 
         try
         {
@@ -109,11 +121,23 @@ public class VerseFragment extends Fragment {
         }
     }
 
+    public static ProgressDialog createProgressDialog(Context mContext) {
+        ProgressDialog dialog = new ProgressDialog(mContext);
+        try {
+            dialog.show();
+        } catch (WindowManager.BadTokenException e) {
+
+        }
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.activity_fragment);
+        // dialog.setMessage(Message);
+        return dialog;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = container.getContext();
 
-        //progressBar.setVisibility(View.VISIBLE);
 
         contentView = inflater.inflate(R.layout.activity_fragment, null);
 
@@ -129,16 +153,25 @@ public class VerseFragment extends Fragment {
             @Override
             protected void onPostExecute(Word[] result) {
                 words = result;
+
                 for(Word word : words) {
-                    TextView textViewStrongs = (TextView) contentView.findViewWithTag("textViewStrongs" + (word.getWord_nr() - 1));
+                    int index =  word.getWord_nr() - 1;
+
+                    TextView textViewStrongs = (TextView) contentView.findViewWithTag("textViewStrongs" + index);
                     textViewStrongs.setText(word.getStrongs());
 
-                    TextView textViewWord = (TextView) contentView.findViewWithTag("textViewWord" + (word.getWord_nr() - 1));
+                    TextView textViewWord = (TextView) contentView.findViewWithTag("textViewWord" + index);
                     textViewWord.setText(word.getWord());
+
+                    TextView textViewFunctional = (TextView) contentView.findViewWithTag("textViewFunctional" + index);
+                    textViewFunctional.setText(word.getFunctional());
+
+                    TextView textViewConcordance = (TextView) contentView.findViewWithTag("textViewConcordance" + index);
+                    textViewConcordance.setText(word.getConcordance());
                 }
 
-                //progressBar.setVisibility(View.GONE);
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
+                //progressDialog.dismiss();
             }
         };
 
@@ -207,11 +240,13 @@ public class VerseFragment extends Fragment {
         //textViewConcordance.setText(word.getConcordance());
         textViewConcordance.setTextColor(Color.rgb(213, 85, 0));
         textViewConcordance.setTextSize(14.0f);
+        textViewConcordance.setTag("textViewConcordance" + index);
 
         TextView textViewFunctional = new TextView(context);
         //textViewFunctional.setText(word.getFunctional());
         textViewFunctional.setTextSize(10.0f);
         textViewFunctional.setTextColor(Color.rgb(0, 146, 242));
+        textViewFunctional.setTag("textViewFunctional" + index);
 
         linearLayout.addView(textViewStrongs);
         linearLayout.addView(textViewWord);
