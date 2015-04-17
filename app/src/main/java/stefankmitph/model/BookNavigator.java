@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.provider.UserDictionary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by KumpitschS on 14.04.2015.
  */
@@ -115,5 +118,27 @@ public class BookNavigator {
         }
 
         return words;
+    }
+
+    public List<String> getChapters(String book) {
+        Cursor cursorChapters = database.rawQuery(String.format("select distinct book_name, chapter_nr from content where book_name = '%s'", book), null);
+
+        ArrayList<String> list = new ArrayList<String>();
+        for(int i=1; i <= cursorChapters.getCount(); i++)
+        {
+            list.add(Integer.toString(i));
+        }
+        return list;
+    }
+
+    public List<String> getVerses(String book, int chapter) {
+        Cursor cursorVerses = database.rawQuery(String.format("select distinct book_name, chapter_nr, verse_nr from content where book_name = '%s' and chapter_nr = %d", book, chapter), null);
+
+        ArrayList<String> list = new ArrayList<String>();
+        for(int i=1; i <= cursorVerses.getCount(); i++)
+        {
+            list.add(Integer.toString(i));
+        }
+        return list;
     }
 }

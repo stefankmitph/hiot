@@ -31,11 +31,21 @@ import stefankmitph.model.SQLiteHelper;
 public class MainActivity extends ActionBarActivity implements ActivityObjectProvider, FragmentSelection.OnFragmentInteractionListener {
 
     private SQLiteDatabase database;
+    private Bundle bundle;
+    private String book;
+    private int chapter;
+    private int verse;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bundle = getIntent().getExtras();
+        book = bundle.getString("book");
+        chapter = bundle.getInt("chapter");
+        verse = bundle.getInt("verse");
 
         this.database = initializeDatabase(this);
 
@@ -83,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
                 //case 0:
                 //    return FragmentSelection.newInstance("test", "banana");
                 default:
-                    return VerseFragment.newInstance("John", 1, position + 1);
+                    return VerseFragment.newInstance(book, chapter, verse + position);
 
             }
         }

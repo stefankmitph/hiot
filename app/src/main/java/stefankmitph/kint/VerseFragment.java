@@ -44,20 +44,10 @@ public class VerseFragment extends Fragment {
 
     private View contentView;
 
-    private Handler mHandler;
-
-
-    private boolean isShown = false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Setup content view
-        //setContentView(contentView);
-        // Setup text for empty content
-        //setEmptyText(R.string.empty);
-        //obtainData();
-
     }
 
     public static VerseFragment newInstance(String book, int chapter, int verse) {
@@ -77,20 +67,8 @@ public class VerseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        /*progressDialog = new ProgressDialog(activity, ProgressDialog.THEME_HOLO_DARK);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
-*/
         progressBar = (ProgressBar)activity.findViewById(R.id.progressBar1);
-
-
         progressBar.setVisibility(View.VISIBLE);
-        /*if (progressDialog == null) {
-            progressDialog = createProgressDialog(activity);
-            progressDialog.show();
-        } else {
-            progressDialog.show();
-        }*/
 
         this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Cardo104s.ttf");
 
@@ -117,7 +95,7 @@ public class VerseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if(isVisibleToUser) {
-            isShown = true;
+
         }
     }
 
@@ -147,7 +125,7 @@ public class VerseFragment extends Fragment {
 
             @Override
             protected Word[] doInBackground(Object... params) {
-                return navigator.getVerse(book, chapter, verse);
+                return navigator.getVerse((String)params[0], (int)params[1], (int)params[2]);
             }
 
             @Override
