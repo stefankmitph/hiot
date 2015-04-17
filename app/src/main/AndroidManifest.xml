@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SelectionActivity"
-            android:label="@string/title_activity_selection" >
+            android:label="@string/title_activity_selection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SelectionActivity" />
         </activity>
 
     </application>

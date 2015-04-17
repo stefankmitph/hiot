@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,11 @@ public class VerseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if(isVisibleToUser) {
-
+            FragmentActivity activity = getActivity();
+            if(activity != null)
+            {
+                ((MainActivity)activity).setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
+            }
         }
     }
 

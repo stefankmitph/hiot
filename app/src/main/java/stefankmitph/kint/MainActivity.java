@@ -36,6 +36,9 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     private int chapter;
     private int verse;
 
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         verse = bundle.getInt("verse");
 
         this.database = initializeDatabase(this);
+
+        setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
 
         //MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database, "John", 1);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
