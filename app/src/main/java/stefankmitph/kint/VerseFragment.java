@@ -68,9 +68,6 @@ public class VerseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        progressBar = (ProgressBar)activity.findViewById(R.id.progressBar1);
-        progressBar.setVisibility(View.VISIBLE);
-
         this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Cardo104s.ttf");
 
         try
@@ -91,6 +88,11 @@ public class VerseFragment extends Fragment {
 
         database = provider.getDatabase();
         navigator = new BookNavigator(database);
+
+        FragmentActivity activity= getActivity();
+
+        progressBar = (ProgressBar)((MainActivity)activity).findViewById(R.id.progressBar1);
+
     }
 
     @Override
@@ -100,6 +102,8 @@ public class VerseFragment extends Fragment {
             if(activity != null)
             {
                 ((MainActivity)activity).setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
+                progressBar.setVisibility(View.VISIBLE);
+
             }
         }
     }
@@ -120,7 +124,6 @@ public class VerseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = container.getContext();
-
 
         contentView = inflater.inflate(R.layout.activity_fragment, null);
 
@@ -190,8 +193,7 @@ public class VerseFragment extends Fragment {
 
         final TextView textViewStrongs = new TextView(context);
         textViewStrongs.setTag("textViewStrongs" + index);
-        //textViewStrongs.setText(word.getStrongs());
-        textViewStrongs.setTextSize(10.0f);
+        textViewStrongs.setTextAppearance(context, android.R.style.TextAppearance_Small);
         textViewStrongs.setTextColor(Color.rgb(0, 146, 242));
         //final SQLiteDatabase finalDatabase = database;
         textViewStrongs.setOnClickListener(new View.OnClickListener() {
@@ -214,21 +216,19 @@ public class VerseFragment extends Fragment {
         });
 
         TextView textViewWord = new TextView(context);
-        //textViewWord.setText(word.getWord());
+        textViewWord.setTextAppearance(context, android.R.style.TextAppearance_Large);
         textViewWord.setTypeface(typeface);
-        textViewWord.setTextSize(16.0f);
+        textViewWord.setTextColor(Color.rgb(61, 76, 83));
         textViewWord.setTag("textViewWord" + index);
 
         TextView textViewConcordance = new TextView(context);
-        //textViewConcordance.setText(word.getConcordance());
-        textViewConcordance.setTextColor(Color.rgb(213, 85, 0));
-        textViewConcordance.setTextSize(14.0f);
+        textViewConcordance.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+        textViewConcordance.setTextColor(Color.rgb(230, 74, 69));
         textViewConcordance.setTag("textViewConcordance" + index);
 
         TextView textViewFunctional = new TextView(context);
-        //textViewFunctional.setText(word.getFunctional());
-        textViewFunctional.setTextSize(10.0f);
-        textViewFunctional.setTextColor(Color.rgb(0, 146, 242));
+        textViewFunctional.setTextAppearance(context, android.R.style.TextAppearance_Small);
+        textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
         textViewFunctional.setTag("textViewFunctional" + index);
 
         linearLayout.addView(textViewStrongs);

@@ -17,7 +17,7 @@
         <item>John</item>
         <item>Acts</item>
     </string-array>
-    <string name="title_activity_selection">SelectionActivity</string>
+    <string name="title_activity_selection">Choose</string>
     <string name="chapterlabel">Chapter</string>
     <string name="verselabel">Verse</string>
 </resources>

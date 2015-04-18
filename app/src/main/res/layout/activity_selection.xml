@@ -9,41 +9,44 @@
     <TextView android:text="@string/booklabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/booklabel"/>
 
     <Spinner
         android:id="@+id/spinnerbooks"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/booklabel"
         android:entries="@array/books"/>
 
     <TextView android:text="@string/chapterlabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@id/spinnerbooks"
         android:id="@+id/chapterlabel"/>
 
     <Spinner
         android:id="@+id/spinnerchapters"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/chapterlabel"
         android:entries="@array/books"/>
 
     <TextView android:text="@string/verselabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@id/spinnerchapters"
         android:id="@+id/verselabel"/>
 
     <Spinner
         android:id="@+id/spinnerverses"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/verselabel"
         android:entries="@array/books"/>
 

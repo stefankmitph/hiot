@@ -26,6 +26,8 @@ public class BookNavigator {
         while(cursor.moveToNext()) {
             count = cursor.getInt(0);
         }
+
+        cursor.close();
         return count;
     }
 
@@ -41,6 +43,7 @@ public class BookNavigator {
     }
 
     public Word[] getVerse(String book, int chapter, int verse) {
+
         Cursor cursor = database.rawQuery(
                 String.format("select * from content where book_name = '%s' and chapter_nr = %d and verse_nr = %d",
                         book,
@@ -104,11 +107,13 @@ public class BookNavigator {
 
                                 concordance = getRef.getString(5); // text
                             }
+                            getRef.close();
                         }
                     } else {
                         concordance = "";
                     }
                 }
+                cursorRef.close();
 
                 //Cursor cursor1 = database.rawQuery(String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d", book, chapter_nr, verse_nr), null);
             }
@@ -116,6 +121,8 @@ public class BookNavigator {
             words[idx] = new Word(book_name, chapter_nr, verse_nr, word_nr, word, functional, strongs, lemma, concordance);
 
         }
+
+        cursor.close();
 
         return words;
     }
@@ -128,6 +135,7 @@ public class BookNavigator {
         {
             list.add(Integer.toString(i));
         }
+        cursorChapters.close();
         return list;
     }
 
@@ -139,6 +147,7 @@ public class BookNavigator {
         {
             list.add(Integer.toString(i));
         }
+        cursorVerses.close();
         return list;
     }
 }

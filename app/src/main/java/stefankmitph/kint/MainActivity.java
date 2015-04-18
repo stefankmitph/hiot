@@ -1,5 +1,6 @@
 package stefankmitph.kint;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //getActionBar().setDisplayHomeAsUpEnabled(false);
+
         bundle = getIntent().getExtras();
         book = bundle.getString("book");
         chapter = bundle.getInt("chapter");
@@ -59,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
         myPager.setOffscreenPageLimit(5);
         myPager.setAdapter(myPagerAdapter);
-        myPager.setCurrentItem(0);
+        myPager.setCurrentItem(verse - 1);
     }
 
     private SQLiteDatabase initializeDatabase(Context context) {
@@ -98,7 +101,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
                 //case 0:
                 //    return FragmentSelection.newInstance("test", "banana");
                 default:
-                    return VerseFragment.newInstance(book, chapter, verse + position);
+                    return VerseFragment.newInstance(book, chapter, position + 1);
 
             }
         }
@@ -114,6 +117,13 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        android.support.v7.app.ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setHomeButtonEnabled(false); // disable the button
+            supportActionBar.setDisplayHomeAsUpEnabled(false); // remove the left caret
+            supportActionBar.setDisplayShowHomeEnabled(false); // remove the icon
+        }
         return true;
     }
 
