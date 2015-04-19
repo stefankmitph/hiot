@@ -1,12 +1,7 @@
 package stefankmitph.kint;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,18 +11,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import stefankmitph.model.SQLiteHelper;
-
+import java.util.Map;
+import stefankmitph.model.DatabaseManager;
+import stefankmitph.model.Word;
 
 public class MainActivity extends ActionBarActivity implements ActivityObjectProvider, FragmentSelection.OnFragmentInteractionListener {
 
@@ -36,9 +25,20 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     private String book;
     private int chapter;
     private int verse;
+    private HashMap<Integer, List<Word>> map;
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    private void initializeData(List<Word> words) {
+        map = new HashMap<Integer, List<Word>>();
+        for(Word word : words) {
+            if(!map.containsKey(word.getVerse_nr()))
+                map.put(word.getVerse_nr(), new ArrayList<Word>());
+
+            map.get(word.getVerse_nr()).add(word);
+        }
     }
 
     @Override
@@ -46,16 +46,22 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //getActionBar().setDisplayHomeAsUpEnabled(false);
+        DatabaseManager.init(this);
 
         bundle = getIntent().getExtras();
         book = bundle.getString("book");
         chapter = bundle.getInt("chapter");
         verse = bundle.getInt("verse");
 
-        this.database = initializeDatabase(this);
+        DatabaseManager manager = DatabaseManager.getInstance();
+        List<Word> words = manager.getChapter(book, chapter);
 
-        setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
+        initializeData(words);
+
+        //this.database = initializeDatabase(this);
+
+
+        setActionBarTitle(String.format("%s %d:%d", book, this.chapter, verse));
 
         //MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database, "John", 1);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
@@ -67,20 +73,21 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
     private SQLiteDatabase initializeDatabase(Context context) {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-        SQLiteDatabase database = null;
-
-        try {
-            dataBaseHelper.createDataBase();
-            database = dataBaseHelper.getReadableDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SQLiteDatabase database = dataBaseHelper.getReadableDatabase();
         return database;
     }
 
     @Override
     public SQLiteDatabase getDatabase() {
         return this.database;
+    }
+
+    @Override
+    public List<Word> getWords(int verse) {
+        assert map != null;
+        if(map.containsKey(verse))
+            return map.get(verse);
+        return null;
     }
 
     @Override
@@ -108,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         @Override
         public int getCount() {
-            return 50;
+            return map.keySet().size();
         }
     }
 

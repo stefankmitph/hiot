@@ -24,7 +24,10 @@ import android.widget.Toast;
 import com.devspark.progressfragment.ProgressFragment;
 
 
+import java.util.List;
+
 import stefankmitph.model.BookNavigator;
+import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
 /**
@@ -35,7 +38,7 @@ public class VerseFragment extends Fragment {
     private String book;
     private int chapter;
     private int verse;
-    private Word[] words;
+    private List<Word> words;
     private BookNavigator navigator;
     private Typeface typeface;
     private SQLiteDatabase database;
@@ -102,7 +105,7 @@ public class VerseFragment extends Fragment {
             if(activity != null)
             {
                 ((MainActivity)activity).setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
 
             }
         }
@@ -127,24 +130,29 @@ public class VerseFragment extends Fragment {
 
         contentView = inflater.inflate(R.layout.activity_fragment, null);
 
-        final ViewGroup c = container;
 
-        AsyncTask<Object, Void, Word[]> loadTask = new AsyncTask<Object, Void, Word[]>() {
+        AsyncTask<Object, Void, List<Word>> loadTask = new AsyncTask<Object, Void, List<Word>>() {
 
             @Override
-            protected Word[] doInBackground(Object... params) {
-                return navigator.getVerse((String)params[0], (int)params[1], (int)params[2]);
+            protected List<Word> doInBackground(Object... params) {
+                //DatabaseManager manager = DatabaseManager.getInstance();
+                //List<Word> allWords = manager.getAllWords();
+
+                List<Word> words = provider.getWords((int) params[2]);
+                return words;
+
+                //return navigator.getVerse((String)params[0], (int)params[1], (int)params[2]);
             }
 
             @Override
-            protected void onPostExecute(Word[] result) {
+            protected void onPostExecute(List<Word> result) {
                 words = result;
 
                 for(Word word : words) {
                     int index =  word.getWord_nr() - 1;
 
                     TextView textViewStrongs = (TextView) contentView.findViewWithTag("textViewStrongs" + index);
-                    textViewStrongs.setText(word.getStrongs());
+                    //textViewStrongs.setText(word.getStrongs());
 
                     TextView textViewWord = (TextView) contentView.findViewWithTag("textViewWord" + index);
                     textViewWord.setText(word.getWord());
@@ -156,12 +164,14 @@ public class VerseFragment extends Fragment {
                     textViewConcordance.setText(word.getConcordance());
                 }
 
-                progressBar.setVisibility(View.GONE);
+                //progressBar.setVisibility(View.GONE);
                 //progressDialog.dismiss();
             }
         };
 
-        loadTask.execute(book, chapter, verse);
+        //loadTask.execute(book, chapter, verse);
+
+        words = provider.getWords(verse);
 
         FlowLayout layout = new FlowLayout(context, null);
         layout.setLayoutParams(
@@ -171,10 +181,13 @@ public class VerseFragment extends Fragment {
                 ));
         layout.setPadding(10, 10, 10, 10);
 
-        int count =  navigator.getVerseCount(book, chapter);
+        int count = provider.getWords(verse).size();
+
+        //int count =  navigator.getVerseCount(book, chapter);
         for(int i = 0; i < count; i++) {
 
             LinearLayout linearLayout = getLayout(context, i);
+
 
             layout.addView(linearLayout);
         }
@@ -230,6 +243,13 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setTextAppearance(context, android.R.style.TextAppearance_Small);
         textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
         textViewFunctional.setTag("textViewFunctional" + index);
+
+        textViewWord.setText(words.get(index).getWord());
+
+        textViewFunctional.setText(words.get(index).getFunctional());
+
+        textViewConcordance.setText(words.get(index).getConcordance());
+
 
         linearLayout.addView(textViewStrongs);
         linearLayout.addView(textViewWord);

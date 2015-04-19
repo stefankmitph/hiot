@@ -4,12 +4,18 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
+
+import java.sql.SQLException;
+
 import stefankmitph.kint.R;
 
 /**
  * Created by KumpitschS on 08.04.2015.
  */
-public class SQLiteHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends OrmLiteSqliteOpenHelper {
 
     private Context context;
 
@@ -22,13 +28,26 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         for(String sql : context.getResources().getStringArray(R.array.create)) {
-            db.execSQL(sql);
+            database.execSQL(sql);
         }
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+
+    }
+
+    private Dao<Word, Integer> wordDao;
+    public Dao<Word, Integer> getWordDao() {
+        if(wordDao == null) {
+            try {
+                wordDao = getDao(Word.class);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return wordDao;
     }
 }

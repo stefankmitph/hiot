@@ -19,6 +19,8 @@ import java.util.List;
 
 import stefankmitph.kint.R;
 import stefankmitph.model.BookNavigator;
+import stefankmitph.model.DatabaseManager;
+import stefankmitph.model.Word;
 
 public class SelectionActivity extends ActionBarActivity {
 
@@ -36,12 +38,12 @@ public class SelectionActivity extends ActionBarActivity {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
         SQLiteDatabase database = null;
 
-        try {
-            dataBaseHelper.createDataBase();
-            database = dataBaseHelper.getReadableDatabase();
+        /*try {
+            //dataBaseHelper.createDataBase();
+            //database = dataBaseHelper.getReadableDatabase();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return database;
     }
 
@@ -65,6 +67,9 @@ public class SelectionActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
+
+        DatabaseManager.init(this);
+        DatabaseManager instance = DatabaseManager.getInstance();
 
         this.database = initializeDatabase(this);
         navigator = new BookNavigator(database);

@@ -3,7 +3,6 @@ package stefankmitph.model;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.provider.UserDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,12 @@ import java.util.List;
  */
 public class BookNavigator {
     private SQLiteDatabase database;
+    private DatabaseManager manager;
 
     public BookNavigator(SQLiteDatabase database) {
         this.database = database;
+
+        manager = DatabaseManager.getInstance();
     }
 
     public int getVerseCount(String book, int chapter) {
@@ -65,11 +67,7 @@ public class BookNavigator {
             String strongs = cursor.getString(7);
             String lemma = cursor.getString(8);
 
-
             String[] split = strongs.split("\\&");
-            /*for(String s : split) {
-
-            }*/
 
             strongs = split[0];
 
@@ -115,10 +113,10 @@ public class BookNavigator {
                 }
                 cursorRef.close();
 
-                //Cursor cursor1 = database.rawQuery(String.format("select * from concordance where book_name = '%s' and chapter_nr = %d and verse_nr = %d", book, chapter_nr, verse_nr), null);
             }
 
-            words[idx] = new Word(book_name, chapter_nr, verse_nr, word_nr, word, functional, strongs, lemma, concordance);
+            //words[idx] = new Word(book_name, chapter_nr, verse_nr, word_nr, word, functional, strongs, lemma, concordance);
+            words[idx] = new Word();
 
         }
 
@@ -128,26 +126,24 @@ public class BookNavigator {
     }
 
     public List<String> getChapters(String book) {
-        Cursor cursorChapters = database.rawQuery(String.format("select distinct book_name, chapter_nr from content where book_name = '%s'", book), null);
+        long count = manager.getCountOfChapters(book);
 
         ArrayList<String> list = new ArrayList<String>();
-        for(int i=1; i <= cursorChapters.getCount(); i++)
+        for(int i=1; i <= count; i++)
         {
             list.add(Integer.toString(i));
         }
-        cursorChapters.close();
         return list;
     }
 
     public List<String> getVerses(String book, int chapter) {
-        Cursor cursorVerses = database.rawQuery(String.format("select distinct book_name, chapter_nr, verse_nr from content where book_name = '%s' and chapter_nr = %d", book, chapter), null);
+        long count = manager.getCountOfVerses(book, chapter);
 
         ArrayList<String> list = new ArrayList<String>();
-        for(int i=1; i <= cursorVerses.getCount(); i++)
+        for(int i=1; i <= count; i++)
         {
             list.add(Integer.toString(i));
         }
-        cursorVerses.close();
         return list;
     }
 }

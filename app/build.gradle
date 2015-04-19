@@ -27,6 +27,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile files('libs/opencsv/opencsv-2.4.jar')
     compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.+'
+    compile 'com.j256.ormlite:ormlite-core:4.23'
+    compile 'com.j256.ormlite:ormlite-android:4.45'
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.+'
 }
