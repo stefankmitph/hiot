@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import stefankmitph.model.Concordance;
 import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
@@ -56,14 +58,12 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         DatabaseManager manager = DatabaseManager.getInstance();
         List<Word> words = manager.getChapter(book, chapter);
 
+        List<Concordance> concordances = manager.getConcordanceForChapter(book, chapter);
+
         initializeData(words);
-
-        //this.database = initializeDatabase(this);
-
 
         setActionBarTitle(String.format("%s %d:%d", book, this.chapter, verse));
 
-        //MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, database, "John", 1);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
         myPager.setOffscreenPageLimit(5);
@@ -105,11 +105,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         public Fragment getItem(int position) {
             switch(position)
             {
-                //case 0:
-                //    return FragmentSelection.newInstance("test", "banana");
                 default:
                     return VerseFragment.newInstance(book, chapter, position + 1);
-
             }
         }
 

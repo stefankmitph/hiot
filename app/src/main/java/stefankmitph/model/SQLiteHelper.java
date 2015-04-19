@@ -50,4 +50,16 @@ public class SQLiteHelper extends OrmLiteSqliteOpenHelper {
         }
         return wordDao;
     }
+
+    private Dao<Concordance, Integer> concordanceDao;
+    public Dao<Concordance, Integer> getConcordanceDao() {
+        if(concordanceDao == null) {
+            try {
+                concordanceDao = getDao(Concordance.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return concordanceDao;
+    }
 }

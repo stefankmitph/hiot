@@ -127,49 +127,7 @@ public class VerseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Context context = container.getContext();
-
         contentView = inflater.inflate(R.layout.activity_fragment, null);
-
-
-        AsyncTask<Object, Void, List<Word>> loadTask = new AsyncTask<Object, Void, List<Word>>() {
-
-            @Override
-            protected List<Word> doInBackground(Object... params) {
-                //DatabaseManager manager = DatabaseManager.getInstance();
-                //List<Word> allWords = manager.getAllWords();
-
-                List<Word> words = provider.getWords((int) params[2]);
-                return words;
-
-                //return navigator.getVerse((String)params[0], (int)params[1], (int)params[2]);
-            }
-
-            @Override
-            protected void onPostExecute(List<Word> result) {
-                words = result;
-
-                for(Word word : words) {
-                    int index =  word.getWord_nr() - 1;
-
-                    TextView textViewStrongs = (TextView) contentView.findViewWithTag("textViewStrongs" + index);
-                    //textViewStrongs.setText(word.getStrongs());
-
-                    TextView textViewWord = (TextView) contentView.findViewWithTag("textViewWord" + index);
-                    textViewWord.setText(word.getWord());
-
-                    TextView textViewFunctional = (TextView) contentView.findViewWithTag("textViewFunctional" + index);
-                    textViewFunctional.setText(word.getFunctional());
-
-                    TextView textViewConcordance = (TextView) contentView.findViewWithTag("textViewConcordance" + index);
-                    textViewConcordance.setText(word.getConcordance());
-                }
-
-                //progressBar.setVisibility(View.GONE);
-                //progressDialog.dismiss();
-            }
-        };
-
-        //loadTask.execute(book, chapter, verse);
 
         words = provider.getWords(verse);
 
@@ -182,8 +140,6 @@ public class VerseFragment extends Fragment {
         layout.setPadding(10, 10, 10, 10);
 
         int count = provider.getWords(verse).size();
-
-        //int count =  navigator.getVerseCount(book, chapter);
         for(int i = 0; i < count; i++) {
 
             LinearLayout linearLayout = getLayout(context, i);
@@ -244,12 +200,10 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
         textViewFunctional.setTag("textViewFunctional" + index);
 
+        textViewStrongs.setText(words.get(index).getStrongs());
         textViewWord.setText(words.get(index).getWord());
-
         textViewFunctional.setText(words.get(index).getFunctional());
-
         textViewConcordance.setText(words.get(index).getConcordance());
-
 
         linearLayout.addView(textViewStrongs);
         linearLayout.addView(textViewWord);

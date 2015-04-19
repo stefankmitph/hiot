@@ -95,4 +95,19 @@ public class DatabaseManager {
         }
         return list;
     }
+
+    public List<Concordance> getConcordanceForChapter(String book, int chapter) {
+        List<Concordance> list = null;
+        try {
+            list = getHelper().getConcordanceDao().queryBuilder()
+                    .where()
+                    .eq("book_name", book)
+                    .and()
+                    .eq("chapter_nr", chapter)
+                    .query();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
