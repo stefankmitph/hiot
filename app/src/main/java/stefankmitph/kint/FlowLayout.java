@@ -1,7 +1,6 @@
 package stefankmitph.kint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,7 +13,6 @@ public class FlowLayout extends ViewGroup {
 
     public FlowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
         try {
             mHorizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 0);
@@ -22,16 +20,11 @@ public class FlowLayout extends ViewGroup {
         } finally {
             a.recycle();
         }
-
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(0xffff0000);
-        mPaint.setStrokeWidth(2.0f);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight();
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight() - getPaddingLeft();
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
         boolean growHeight = widthMode != MeasureSpec.UNSPECIFIED;
@@ -42,7 +35,6 @@ public class FlowLayout extends ViewGroup {
         int currentWidth = getPaddingLeft();
         int currentHeight = 0;
 
-        boolean breakLine = false;
         boolean newLine = false;
         int spacing = 0;
 
@@ -57,7 +49,7 @@ public class FlowLayout extends ViewGroup {
                 spacing = lp.horizontalSpacing;
             }
 
-            if (growHeight && (breakLine || currentWidth + child.getMeasuredWidth() > widthSize)) {
+            if (growHeight && currentWidth + child.getMeasuredWidth() > widthSize) {
                 height += currentHeight + mVerticalSpacing;
                 currentHeight = 0;
                 width = Math.max(width, currentWidth - spacing);
@@ -72,20 +64,15 @@ public class FlowLayout extends ViewGroup {
 
             currentWidth += child.getMeasuredWidth() + spacing;
             currentHeight = Math.max(currentHeight, child.getMeasuredHeight());
-
-            breakLine = lp.breakLine;
         }
 
         if (!newLine) {
-            height += currentHeight;
             width = Math.max(width, currentWidth - spacing);
         }
-
         width += getPaddingRight();
-        height += getPaddingBottom();
+        height += currentHeight + getPaddingBottom();
 
-        setMeasuredDimension(resolveSize(width, widthMeasureSpec),
-                resolveSize(height, heightMeasureSpec));
+        setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
     }
 
     @Override
@@ -96,26 +83,6 @@ public class FlowLayout extends ViewGroup {
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
             child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
         }
-    }
-
-    @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        boolean more = super.drawChild(canvas, child, drawingTime);
-        LayoutParams lp = (LayoutParams) child.getLayoutParams();
-        if (lp.horizontalSpacing > 0) {
-            float x = child.getRight();
-            float y = child.getTop() + child.getHeight() / 2.0f;
-            canvas.drawLine(x, y - 4.0f, x, y + 4.0f, mPaint);
-            canvas.drawLine(x, y, x + lp.horizontalSpacing, y, mPaint);
-            canvas.drawLine(x + lp.horizontalSpacing, y - 4.0f, x + lp.horizontalSpacing, y + 4.0f, mPaint);
-        }
-        if (lp.breakLine) {
-            float x = child.getRight();
-            float y = child.getTop() + child.getHeight() / 2.0f;
-            canvas.drawLine(x, y, x, y + 6.0f, mPaint);
-            canvas.drawLine(x, y + 6.0f, x + 6.0f, y + 6.0f, mPaint);
-        }
-        return more;
     }
 
     @Override
@@ -143,14 +110,12 @@ public class FlowLayout extends ViewGroup {
         int y;
 
         public int horizontalSpacing;
-        public boolean breakLine;
 
         public LayoutParams(Context context, AttributeSet attrs) {
             super(context, attrs);
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
             try {
                 horizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, -1);
-                breakLine = a.getBoolean(R.styleable.FlowLayout_LayoutParams_layout_breakLine, false);
             } finally {
                 a.recycle();
             }

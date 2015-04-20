@@ -62,8 +62,6 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         DatabaseManager manager = DatabaseManager.getInstance();
         List<Word> words = manager.getChapter(book, chapter);
 
-        //List<Concordance> concordances = manager.getConcordanceForChapter(book, chapter);
-
         initializeData(words);
 
         setActionBarTitle(String.format("%s %d:%d", book, this.chapter, verse));

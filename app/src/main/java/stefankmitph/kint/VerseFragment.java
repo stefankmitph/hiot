@@ -135,7 +135,7 @@ public class VerseFragment extends Fragment {
         layout.setLayoutParams(
                 new FlowLayout.LayoutParams(
                         FlowLayout.LayoutParams.MATCH_PARENT,
-                        FlowLayout.LayoutParams.MATCH_PARENT
+                        FlowLayout.LayoutParams.WRAP_CONTENT
                 ));
         layout.setPadding(10, 10, 10, 10);
 
@@ -153,7 +153,7 @@ public class VerseFragment extends Fragment {
 
     private LinearLayout getLayout(Context context, int index) {
         LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setPadding(10, 20, 10, 10);
+        linearLayout.setPadding(10, 20, 30, 40);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(
                 new LinearLayout.LayoutParams(
@@ -163,8 +163,7 @@ public class VerseFragment extends Fragment {
         final TextView textViewStrongs = new TextView(context);
         textViewStrongs.setTag("textViewStrongs" + index);
         textViewStrongs.setTextAppearance(context, android.R.style.TextAppearance_Small);
-        textViewStrongs.setTextColor(Color.rgb(0, 146, 242));
-        //final SQLiteDatabase finalDatabase = database;
+        textViewStrongs.setTextColor(Color.rgb(77, 179, 179));
         textViewStrongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +190,7 @@ public class VerseFragment extends Fragment {
         textViewWord.setTag("textViewWord" + index);
 
         TextView textViewConcordance = new TextView(context);
-        textViewConcordance.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+        textViewConcordance.setTextAppearance(context, android.R.style.TextAppearance_Holo_Small);
         textViewConcordance.setTextColor(Color.rgb(230, 74, 69));
         textViewConcordance.setTag("textViewConcordance" + index);
 
