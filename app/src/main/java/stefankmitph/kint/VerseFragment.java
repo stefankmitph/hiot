@@ -14,17 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
-import stefankmitph.model.BookNavigator;
 import stefankmitph.model.Word;
 
-/**
- * Created by KumpitschS on 14.04.2015.
- */
 public class VerseFragment extends Fragment {
 
     private String book;
@@ -34,9 +29,7 @@ public class VerseFragment extends Fragment {
     private Typeface typeface;
     private SQLiteDatabase database;
     private ActivityObjectProvider provider;
-
     private View contentView;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
