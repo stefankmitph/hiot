@@ -2,6 +2,7 @@ package stefankmitph.kint;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     private int chapter;
     private int verse;
     private HashMap<Integer, List<Word>> map;
+    private Typeface typeface;
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
@@ -48,6 +50,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        typeface = Typeface.createFromAsset(this.getAssets(), "fonts/Cardo104s.ttf");
+
         DatabaseManager.init(this);
 
         bundle = getIntent().getExtras();
@@ -58,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         DatabaseManager manager = DatabaseManager.getInstance();
         List<Word> words = manager.getChapter(book, chapter);
 
-        List<Concordance> concordances = manager.getConcordanceForChapter(book, chapter);
+        //List<Concordance> concordances = manager.getConcordanceForChapter(book, chapter);
 
         initializeData(words);
 
@@ -69,12 +73,6 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         myPager.setOffscreenPageLimit(5);
         myPager.setAdapter(myPagerAdapter);
         myPager.setCurrentItem(verse - 1);
-    }
-
-    private SQLiteDatabase initializeDatabase(Context context) {
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-        SQLiteDatabase database = dataBaseHelper.getReadableDatabase();
-        return database;
     }
 
     @Override
@@ -88,6 +86,11 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         if(map.containsKey(verse))
             return map.get(verse);
         return null;
+    }
+
+    @Override
+    public Typeface getTypeface() {
+        return typeface;
     }
 
     @Override

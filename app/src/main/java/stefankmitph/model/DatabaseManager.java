@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.stmt.PreparedQuery;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,12 +26,17 @@ public class DatabaseManager {
         return instance;
     }
 
-    private SQLiteHelper helper;
+    private DataBaseHelper helper;
     private DatabaseManager(Context context) {
-        helper = new SQLiteHelper(context);
+        helper = new DataBaseHelper(context);
+        try {
+            helper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private SQLiteHelper getHelper() {
+    private DataBaseHelper getHelper() {
         return helper;
     }
 

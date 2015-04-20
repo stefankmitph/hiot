@@ -36,6 +36,7 @@ public class Word {
     @DatabaseField
     private String lemma;
 
+    @DatabaseField
     private String concordance;
 
     public Word() {}
@@ -57,7 +58,9 @@ public class Word {
     }
 
     public String getConcordance() {
-        return concordance;
+        if(concordance != null)
+            return concordance;
+        return "";
     }
 
     public int getVerse_nr() {

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.devspark.progressfragment.ProgressFragment;
 
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import stefankmitph.model.BookNavigator;
@@ -71,11 +72,10 @@ public class VerseFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        this.typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/Cardo104s.ttf");
-
         try
         {
             provider = (ActivityObjectProvider) activity;
+            typeface = provider.getTypeface();
         } catch(ClassCastException e) {
             throw new RuntimeException("it ain't a Provider");
         }

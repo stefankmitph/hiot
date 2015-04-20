@@ -39,27 +39,4 @@ public class SQLiteHelper extends OrmLiteSqliteOpenHelper {
 
     }
 
-    private Dao<Word, Integer> wordDao;
-    public Dao<Word, Integer> getWordDao() {
-        if(wordDao == null) {
-            try {
-                wordDao = getDao(Word.class);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return wordDao;
-    }
-
-    private Dao<Concordance, Integer> concordanceDao;
-    public Dao<Concordance, Integer> getConcordanceDao() {
-        if(concordanceDao == null) {
-            try {
-                concordanceDao = getDao(Concordance.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return concordanceDao;
-    }
 }

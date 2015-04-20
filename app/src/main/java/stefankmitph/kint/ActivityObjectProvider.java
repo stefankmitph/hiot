@@ -1,6 +1,7 @@
 package stefankmitph.kint;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface ActivityObjectProvider {
     public SQLiteDatabase getDatabase();
 
     List<Word> getWords(int verse);
+
+    Typeface getTypeface();
 }

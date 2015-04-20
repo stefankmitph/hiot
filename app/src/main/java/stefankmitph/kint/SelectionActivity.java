@@ -38,14 +38,16 @@ public class SelectionActivity extends ActionBarActivity {
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
         SQLiteDatabase database = null;
 
-        /*try {
-            //dataBaseHelper.createDataBase();
-            //database = dataBaseHelper.getReadableDatabase();
+        try {
+            dataBaseHelper.createDataBase();
+            database = dataBaseHelper.getReadableDatabase();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         return database;
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,12 @@ public class SelectionActivity extends ActionBarActivity {
             }
         });
 
+        //this.database = initializeDatabase(this);
+
+
         DatabaseManager.init(this);
         DatabaseManager instance = DatabaseManager.getInstance();
 
-        this.database = initializeDatabase(this);
         navigator = new BookNavigator(database);
 
         spinnerBooks = (Spinner) findViewById(R.id.spinnerbooks);

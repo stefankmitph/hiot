@@ -6,14 +6,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import stefankmitph.model.Concordance;
 import stefankmitph.model.SQLiteDBDeploy;
+import stefankmitph.model.Word;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static String DB_PATH = "/data/data/stefankmitph.app1/databases/";
 
@@ -138,11 +144,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 
     }
 
@@ -151,4 +157,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // You could return cursors by doing "return myDataBase.query(....)" so it'd be easy
     // to you to create adapters for your views.
 
+    private Dao<Word, Integer> wordDao;
+    public Dao<Word, Integer> getWordDao() {
+        if(wordDao == null) {
+            try {
+                wordDao = getDao(Word.class);
+            } catch (java.sql.SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return wordDao;
+    }
+
+    private Dao<Concordance, Integer> concordanceDao;
+    public Dao<Concordance, Integer> getConcordanceDao() {
+        if(concordanceDao == null) {
+            try {
+                concordanceDao = getDao(Concordance.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return concordanceDao;
+    }
 }
