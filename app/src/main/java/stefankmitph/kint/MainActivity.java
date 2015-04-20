@@ -1,6 +1,7 @@
 package stefankmitph.kint;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,10 +70,13 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         setActionBarTitle(String.format("%s %d:%d", book, this.chapter, verse));
 
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
+
+        final ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
+        myPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
         myPager.setOffscreenPageLimit(5);
         myPager.setAdapter(myPagerAdapter);
         myPager.setCurrentItem(verse - 1);
+        myPager.setOnPageChangeListener(new CircularViewPagerHandler(myPager));
     }
 
     @Override
@@ -104,19 +110,64 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         @Override
         public Fragment getItem(int position) {
-            switch(position)
-            {
-                default:
-                    return VerseFragment.newInstance(book, chapter, position + 1);
-            }
+            return VerseFragment.newInstance(book, chapter, position + 1);
         }
 
         @Override
         public int getCount() {
-            return map.keySet().size();
+            return map.keySet().size(); // myPager -> scroll
         }
     }
 
+    public class CircularViewPagerHandler implements ViewPager.OnPageChangeListener {
+        private ViewPager   mViewPager;
+        private int         mCurrentPosition;
+        private int         mScrollState;
+
+        public CircularViewPagerHandler(final ViewPager viewPager) {
+            mViewPager = viewPager;
+        }
+
+        @Override
+        public void onPageSelected(final int position) {
+            mCurrentPosition = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(final int state) {
+            handleScrollState(state);
+            mScrollState = state;
+        }
+
+        private void handleScrollState(final int state) {
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                setNextItemIfNeeded();
+            }
+        }
+
+        private void setNextItemIfNeeded() {
+            if (!isScrollStateSettling()) {
+                handleSetNextItem();
+            }
+        }
+
+        private boolean isScrollStateSettling() {
+            return mScrollState == ViewPager.SCROLL_STATE_SETTLING;
+        }
+
+        private void handleSetNextItem() {
+            final int lastPosition = mViewPager.getAdapter().getCount() - 1;
+            if(mCurrentPosition == 0) {
+                mViewPager.setCurrentItem(lastPosition, false);
+            } else if(mCurrentPosition == lastPosition) {
+                mViewPager.setCurrentItem(0, false);
+            }
+        }
+
+        @Override
+        public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

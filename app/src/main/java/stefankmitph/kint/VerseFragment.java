@@ -3,13 +3,10 @@ package stefankmitph.kint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -19,16 +16,10 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.devspark.progressfragment.ProgressFragment;
-
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import stefankmitph.model.BookNavigator;
-import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
 /**
@@ -40,12 +31,9 @@ public class VerseFragment extends Fragment {
     private int chapter;
     private int verse;
     private List<Word> words;
-    private BookNavigator navigator;
     private Typeface typeface;
     private SQLiteDatabase database;
     private ActivityObjectProvider provider;
-    private ProgressBar progressBar;
-    private ProgressDialog progressDialog;
 
     private View contentView;
 
@@ -90,12 +78,6 @@ public class VerseFragment extends Fragment {
         verse = getArguments().getInt("verse");
 
         database = provider.getDatabase();
-        navigator = new BookNavigator(database);
-
-        FragmentActivity activity= getActivity();
-
-        progressBar = (ProgressBar)((MainActivity)activity).findViewById(R.id.progressBar1);
-
     }
 
     @Override
@@ -105,8 +87,6 @@ public class VerseFragment extends Fragment {
             if(activity != null)
             {
                 ((MainActivity)activity).setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
-                //progressBar.setVisibility(View.VISIBLE);
-
             }
         }
     }
