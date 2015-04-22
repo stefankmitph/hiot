@@ -6,10 +6,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="kint"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".SelectionActivity"
-            android:label="kint">
+            android:label="kint" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,12 +19,14 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SelectionActivity" />
         </activity>
-
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,4 +20,15 @@
     <string name="title_activity_selection">Choose</string>
     <string name="chapterlabel">Chapter</string>
     <string name="verselabel">Verse</string>
+
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_sync_frequency">Sync frequency</string>
+    <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    <string name="pref_user_name">Set username</string>
+    <string name="pref_user_name_summary">Set your username</string>
+
+    <string name="pref_user_profile">User Profile</string>
+    <string name="pref_update_setting">Update Settings</string>
+
 </resources>

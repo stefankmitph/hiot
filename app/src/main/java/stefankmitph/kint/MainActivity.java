@@ -2,9 +2,11 @@ package stefankmitph.kint;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,6 +35,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     private int verse;
     private HashMap<Integer, List<Word>> map;
     private Typeface typeface;
+
+    private static final int RESULT_SETTINGS = 1;
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
@@ -192,9 +196,43 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivityForResult(i, RESULT_SETTINGS);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case RESULT_SETTINGS:
+                showUserSettings();
+                break;
+
+        }
+    }
+
+    private void showUserSettings() {
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n Username: "
+                + sharedPrefs.getString("prefUsername", "NULL"));
+
+        builder.append("\n Send report:"
+                + sharedPrefs.getBoolean("prefSendReport", false));
+
+        builder.append("\n Sync Frequency: "
+                + sharedPrefs.getString("prefSyncFrequency", "NULL"));
+
+        //TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
+
+        //settingsTextView.setText(builder.toString());
     }
 }
