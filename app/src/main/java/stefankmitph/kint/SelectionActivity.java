@@ -71,9 +71,6 @@ public class SelectionActivity extends ActionBarActivity {
             }
         });
 
-        //this.database = initializeDatabase(this);
-
-
         DatabaseManager.init(this);
         DatabaseManager instance = DatabaseManager.getInstance();
 
@@ -116,7 +113,7 @@ public class SelectionActivity extends ActionBarActivity {
                 map.put("Jude","Jude");
                 map.put("Revelation","Rev");
 
-                book = map.get((String)itemAtPosition);
+                book = map.get(itemAtPosition);
 
                 List<String> list = navigator.getChapters(book);
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, list);

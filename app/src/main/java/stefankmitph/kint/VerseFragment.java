@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
+import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
 public class VerseFragment extends Fragment {
@@ -29,7 +31,6 @@ public class VerseFragment extends Fragment {
     private int verse;
     private List<Word> words;
     private Typeface typeface;
-    private SQLiteDatabase database;
     private ActivityObjectProvider provider;
     private View contentView;
 
@@ -71,8 +72,6 @@ public class VerseFragment extends Fragment {
         book = getArguments().getString("book");
         chapter = getArguments().getInt("chapter");
         verse = getArguments().getInt("verse");
-
-        database = provider.getDatabase();
     }
 
     @Override
@@ -84,19 +83,6 @@ public class VerseFragment extends Fragment {
                 ((MainActivity)activity).setActionBarTitle(String.format("%s %d:%d", book, chapter, verse));
             }
         }
-    }
-
-    public static ProgressDialog createProgressDialog(Context mContext) {
-        ProgressDialog dialog = new ProgressDialog(mContext);
-        try {
-            dialog.show();
-        } catch (WindowManager.BadTokenException e) {
-
-        }
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.activity_fragment);
-        // dialog.setMessage(Message);
-        return dialog;
     }
 
     @Override
@@ -146,19 +132,14 @@ public class VerseFragment extends Fragment {
         textViewStrongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    /*String text = textViewStrongs.getText().toString();
+                    String text = textViewStrongs.getText().toString();
                     String[] parts = text.split("\\&");
-                    String strongs1 = "";
-                    if (parts.length > 1) {
 
-                    } else {
-                        //Cursor result1 = finalDatabase.rawQuery(String.format("select * from strongs where nr = %s", text), null);
-                        //while (result1.moveToNext())
-                        //    strongs1 = result1.getString(2);
-                    }
+                    DatabaseManager manager = DatabaseManager.getInstance();
+                    String strongs = manager.getStrongs(parts);
 
-                    Toast toast = Toast.makeText(v.getContext(), strongs1, Toast.LENGTH_LONG);
-                    toast.show();*/
+                    Toast toast = Toast.makeText(v.getContext(), strongs, Toast.LENGTH_LONG);
+                    toast.show();
             }
         });
 

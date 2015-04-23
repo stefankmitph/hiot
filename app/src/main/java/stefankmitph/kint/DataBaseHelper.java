@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import stefankmitph.model.Concordance;
-import stefankmitph.model.SQLiteDBDeploy;
+import stefankmitph.model.Strongs;
 import stefankmitph.model.Word;
 
 public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
@@ -179,5 +179,17 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return concordanceDao;
+    }
+
+    private Dao<Strongs, Integer> strongsDao;
+    public Dao<Strongs, Integer> getStrongsDao() {
+        if(strongsDao == null) {
+            try {
+                strongsDao = getDao(Strongs.class);
+            } catch(java.sql.SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return strongsDao;
     }
 }

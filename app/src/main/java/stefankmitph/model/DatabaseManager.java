@@ -6,6 +6,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import stefankmitph.kint.DataBaseHelper;
@@ -115,5 +116,33 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public String getStrongs(String... nr) {
+        List<String> list = new ArrayList<>();
+        String strongs = "";
+        try {
+            for(String n : nr) {
+                List<Strongs> item = getHelper().getStrongsDao().queryBuilder()
+                        .where()
+                        .eq("nr", n)
+                        .query();
+                if(item.size() > 0)
+                    list.add(item.get(0).getText());
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        if(list.size() > 1) {
+            for (String s : list) {
+                strongs += s + "\n\r";
+            }
+        } else if(list.size() == 1) {
+            strongs = list.get(0);
+        } else {
+            strongs = "";
+        }
+
+        return strongs;
     }
 }
