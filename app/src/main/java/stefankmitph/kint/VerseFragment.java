@@ -3,10 +3,12 @@ package stefankmitph.kint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -125,6 +127,10 @@ public class VerseFragment extends Fragment {
     }
 
     private LinearLayout getLayout(Context context, int index) {
+
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setPadding(10, 20, 30, 40);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -177,10 +183,19 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setText(words.get(index).getFunctional());
         textViewConcordance.setText(words.get(index).getConcordance());
 
-        linearLayout.addView(textViewStrongs);
+        boolean showStrongs = sharedPrefs.getBoolean("show_strongs", false);
+        if(showStrongs)
+            linearLayout.addView(textViewStrongs);
+
         linearLayout.addView(textViewWord);
-        linearLayout.addView(textViewConcordance);
-        linearLayout.addView(textViewFunctional);
+
+        boolean showConcordance = sharedPrefs.getBoolean("show_concordance", false);
+        if(showConcordance)
+            linearLayout.addView(textViewConcordance);
+
+        boolean showFunctional = sharedPrefs.getBoolean("show_functional", false);
+        if(showFunctional)
+            linearLayout.addView(textViewFunctional);
 
         return linearLayout;
     }

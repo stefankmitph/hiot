@@ -3,8 +3,21 @@
     <CheckBoxPreference
         android:key="show_strongs"
         android:title="Show Strongs reference"
-        android:summary="@string/pref_description_social_recommendations"
+        android:summary="This shows the strongs reference/numbers to the word. Tapping at it shows the entry."
         android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="show_concordance"
+        android:title="Show Strongs Concordance"
+        android:summary="It shows the concordance translation of the word."
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="show_functional"
+        android:title="Show Functional Items"
+        android:summary="Shows the grammatical/functional entry. Tapping at it shows the entry."
+        android:defaultValue="true" />
+
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->

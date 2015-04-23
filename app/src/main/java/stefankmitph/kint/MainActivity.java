@@ -1,15 +1,13 @@
 package stefankmitph.kint;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,9 +18,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import stefankmitph.model.Concordance;
 import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
@@ -35,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     private int verse;
     private HashMap<Integer, List<Word>> map;
     private Typeface typeface;
+    MyPagerAdapter myPagerAdapter;
 
     private static final int RESULT_SETTINGS = 1;
 
@@ -73,7 +70,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         setActionBarTitle(String.format("%s %d:%d", book, this.chapter, verse));
 
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
         final ViewPager myPager = (ViewPager) findViewById(R.id.home_panels_pager);
         myPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -120,6 +117,10 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         @Override
         public int getCount() {
             return map.keySet().size(); // myPager -> scroll
+        }
+
+        private String getFragmentName(int viewPagerId, int index) {
+            return "android:switcher:" + viewPagerId + ":" + index;
         }
     }
 
@@ -210,29 +211,23 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
 
         switch (requestCode) {
             case RESULT_SETTINGS:
-                showUserSettings();
+                reloadFragment();
                 break;
 
         }
     }
 
-    private void showUserSettings() {
-        SharedPreferences sharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(this);
+    private void reloadFragment() {
+        ViewPager pager = (ViewPager) findViewById(R.id.home_panels_pager);
+        String fragmentId = myPagerAdapter.getFragmentName(R.id.home_panels_pager, pager.getCurrentItem());
 
-        StringBuilder builder = new StringBuilder();
+        pager.setAdapter(myPagerAdapter);
 
-        builder.append("\n Username: "
-                + sharedPrefs.getString("prefUsername", "NULL"));
-
-        builder.append("\n Send report:"
-                + sharedPrefs.getBoolean("prefSendReport", false));
-
-        builder.append("\n Sync Frequency: "
-                + sharedPrefs.getString("prefSyncFrequency", "NULL"));
-
-        //TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
-
-        //settingsTextView.setText(builder.toString());
+        /*Fragment frg = null;
+        frg = getSupportFragmentManager().findFragmentByTag(fragmentId);
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.detach(frg);
+        ft.attach(frg);
+        ft.commit();*/
     }
 }
