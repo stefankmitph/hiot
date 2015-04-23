@@ -218,12 +218,5 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         String fragmentId = myPagerAdapter.getFragmentName(R.id.home_panels_pager, pager.getCurrentItem());
 
         pager.setAdapter(myPagerAdapter);
-
-        /*Fragment frg = null;
-        frg = getSupportFragmentManager().findFragmentByTag(fragmentId);
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.detach(frg);
-        ft.attach(frg);
-        ft.commit();*/
     }
 }

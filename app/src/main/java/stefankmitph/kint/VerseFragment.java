@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import stefankmitph.model.DatabaseManager;
+import stefankmitph.model.PosParser;
 import stefankmitph.model.Word;
 
 public class VerseFragment extends Fragment {
@@ -132,14 +133,14 @@ public class VerseFragment extends Fragment {
         textViewStrongs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    String text = textViewStrongs.getText().toString();
-                    String[] parts = text.split("\\&");
+                String text = textViewStrongs.getText().toString();
+                String[] parts = text.split("\\&");
 
-                    DatabaseManager manager = DatabaseManager.getInstance();
-                    String strongs = manager.getStrongs(parts);
+                DatabaseManager manager = DatabaseManager.getInstance();
+                String strongs = manager.getStrongs(parts);
 
-                    Toast toast = Toast.makeText(v.getContext(), strongs, Toast.LENGTH_LONG);
-                    toast.show();
+                Toast toast = Toast.makeText(v.getContext(), strongs, Toast.LENGTH_LONG);
+                toast.show();
             }
         });
 
@@ -158,6 +159,16 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setTextAppearance(context, android.R.style.TextAppearance_Small);
         textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
         textViewFunctional.setTag("textViewFunctional" + index);
+        textViewFunctional.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String result = PosParser.get((String) ((TextView)v).getText());
+
+                Toast toast = Toast.makeText(v.getContext(), result, Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
 
         textViewStrongs.setText(words.get(index).getStrongs());
         textViewWord.setText(words.get(index).getWord());
