@@ -22,7 +22,7 @@ import java.util.List;
 import stefankmitph.model.DatabaseManager;
 import stefankmitph.model.Word;
 
-public class MainActivity extends ActionBarActivity implements ActivityObjectProvider, FragmentSelection.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements ActivityObjectProvider {
 
     private SQLiteDatabase database;
     private Bundle bundle;
@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     }
 
     private void initializeData(List<Word> words) {
-        map = new HashMap<Integer, List<Word>>();
+        map = new HashMap<>();
         for(Word word : words) {
             if(!map.containsKey(word.getVerse_nr()))
                 map.put(word.getVerse_nr(), new ArrayList<Word>());
@@ -98,10 +98,6 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         return typeface;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 

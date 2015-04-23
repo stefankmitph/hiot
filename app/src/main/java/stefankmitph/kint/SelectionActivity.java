@@ -15,6 +15,7 @@ import android.widget.Spinner;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import stefankmitph.kint.R;
@@ -86,9 +87,38 @@ public class SelectionActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object itemAtPosition = parent.getItemAtPosition(position);
 
-                book = (String)itemAtPosition;
+                HashMap<String, String> map = new HashMap<>();
+                map.put("Matthew","Matt");
+                map.put("Mark","Mark");
+                map.put("Luke","Luke");
+                map.put("John","John");
+                map.put("Acts","Acts");
+                map.put("Romans", "Rom");
+                map.put("1 Corinthians" ,"1Cor");
+                map.put("2 Corinthians","2Cor");
+                map.put("Galatians" ,"Gal");
+                map.put("Ephesians" ,"Eph");
+                map.put("Philippians" ,"Phil");
+                map.put("Colossians" ,"Col");
+                map.put("1 Thessalonians","1Thess");
+                map.put("2 Thessalonians" ,"2Thess");
+                map.put("1 Timothy" ,"1Tim");
+                map.put("2 Timothy" ,"2Tim");
+                map.put("Titus" ,"Titus");
+                map.put("Philemon","Phlm");
+                map.put("Hebrews" ,"Heb");
+                map.put("James" ,"Jas");
+                map.put("1 Peter" ,"1Pet");
+                map.put("2 Peter" ,"2Pet");
+                map.put("1 John" ,"1John");
+                map.put("2 John" ,"2John");
+                map.put("3 John" ,"3John");
+                map.put("Jude","Jude");
+                map.put("Revelation","Rev");
 
-                List<String> list = navigator.getChapters((String)itemAtPosition);
+                book = map.get((String)itemAtPosition);
+
+                List<String> list = navigator.getChapters(book);
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, list);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerChapters.setAdapter(dataAdapter);

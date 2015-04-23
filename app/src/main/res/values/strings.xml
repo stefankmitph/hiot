@@ -11,11 +11,33 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="booklabel">Book</string>
     <string-array name="books">
-        <item>Matt</item>
+        <item>Matthew</item>
         <item>Mark</item>
         <item>Luke</item>
         <item>John</item>
         <item>Acts</item>
+        <item>Romans</item>
+        <item>1 Corinthians</item>
+        <item>2 Corinthians</item>
+        <item>Galatians</item>
+        <item>Ephesians</item>
+        <item>Philippians</item>
+        <item>Colossians</item>
+        <item>1 Thessalonians</item>
+        <item>2 Thessalonians</item>
+        <item>1 Timothy</item>
+        <item>2 Timothy</item>
+        <item>Titus</item>
+        <item>Philemon</item>
+        <item>Hebrews</item>
+        <item>James</item>
+        <item>1 Peter</item>
+        <item>2 Peter</item>
+        <item>1 John</item>
+        <item>2 John</item>
+        <item>3 John</item>
+        <item>Jude</item>
+        <item>Revelation</item>
     </string-array>
     <string name="title_activity_selection">Choose</string>
     <string name="chapterlabel">Chapter</string>
@@ -30,5 +52,6 @@
 
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
+    <string name="text_github">Feel free to contribute, copy or steal or whatever you like to do with this code @ <a href="https://github.com/stefankmitph/kint">github.com/stefankmitph/kint</a></string>
 
 </resources>
