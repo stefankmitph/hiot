@@ -450,6 +450,8 @@ public class PosParser {
                         break;
                     case P:
                     case R:
+                        // TODO: add mood
+
                         c = leftString.substring(0, 1);
                         _case = getCaseEnum(c);
                         if(_case == Case.NONE)

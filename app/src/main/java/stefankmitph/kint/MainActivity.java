@@ -217,6 +217,8 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         ViewPager pager = (ViewPager) findViewById(R.id.home_panels_pager);
         String fragmentId = myPagerAdapter.getFragmentName(R.id.home_panels_pager, pager.getCurrentItem());
 
+        int currentItem = pager.getCurrentItem();
         pager.setAdapter(myPagerAdapter);
+        pager.setCurrentItem(currentItem);
     }
 }
