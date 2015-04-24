@@ -60,7 +60,6 @@ public class VerseFragment extends Fragment {
         try
         {
             provider = (ActivityObjectProvider) activity;
-            typeface = provider.getTypeface();
         } catch(ClassCastException e) {
             throw new RuntimeException("it ain't a Provider");
         }
@@ -91,6 +90,7 @@ public class VerseFragment extends Fragment {
         Context context = container.getContext();
         contentView = inflater.inflate(R.layout.activity_fragment, null);
 
+        typeface = provider.getTypeface();
         words = provider.getWords(verse);
 
         FlowLayout layout = new FlowLayout(context, null);
@@ -163,7 +163,7 @@ public class VerseFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String result = PosParser.get((String) ((TextView)v).getText());
+                String result = PosParser.get((String) ((TextView) v).getText());
 
                 Toast toast = Toast.makeText(v.getContext(), result, Toast.LENGTH_LONG);
                 toast.show();

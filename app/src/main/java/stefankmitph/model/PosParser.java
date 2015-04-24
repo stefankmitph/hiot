@@ -177,7 +177,7 @@ public class PosParser {
     private static Case getCaseEnum(String _case) {
         switch(_case) {
             case "N":
-                return Case.A;
+                return Case.N;
             case "D":
                 return Case.D;
             case "V":
@@ -410,7 +410,8 @@ public class PosParser {
                 String m = leftString.substring(0,1);
                 Mood mood = getMoodEnum(m);
 
-                leftString = leftString.substring(2, leftString.length());
+                if(leftString.length() > 2)
+                    leftString = leftString.substring(2, leftString.length());
 
                 switch(mood) {
                     case I:
@@ -426,23 +427,27 @@ public class PosParser {
 
                         leftString = leftString.substring(1, leftString.length());
 
-                        n = leftString.substring(0,1);
+                        n = leftString.substring(0, 1);
                         number = getNumberEnum(n);
 
                         if(number == Number.NONE)
                             return result;
 
-                        result += " " + mapPerson.get(number);
+                        result += " " + mapNumber.get(number);
 
-                        leftString = leftString.substring(1, leftString.length());
-                        if(leftString != "") {
-                            String ve = leftString;
-                            VerbExtra verbExtra = getVerbExtra(ve);
-                            if(verbExtra == VerbExtra.NONE)
-                                return result;
-
-                            result += " " + mapVerbExtra.get(verbExtra);
+                        if(leftString.length() > 1)
+                            leftString = leftString.substring(1, leftString.length());
+                            if(leftString.trim().length() > 0) {
+                                String ve = leftString;
+                                VerbExtra verbExtra = getVerbExtra(ve);
+                                if(verbExtra != VerbExtra.NONE)
+                                    result += " " + mapVerbExtra.get(verbExtra);;
                         }
+                        else {
+                            leftString = leftString.substring(1,1);
+                        }
+
+
 
                         return result;
                     case N:
@@ -450,12 +455,14 @@ public class PosParser {
                         break;
                     case P:
                     case R:
-                        // TODO: add mood
+                        result += " " + mapMood.get(mood);
 
                         c = leftString.substring(0, 1);
                         _case = getCaseEnum(c);
                         if(_case == Case.NONE)
                             return result;
+
+                        result += " " + mapCase.get(_case);
 
                         leftString = leftString.substring(1, leftString.length());
 
@@ -477,7 +484,7 @@ public class PosParser {
                         result += " " + mapGender.get(gender);
 
                         leftString = leftString.substring(1, leftString.length());
-                        if(leftString.length() > 0) {
+                        if(leftString.trim().length() > 0) {
                             String ve = leftString;
                             VerbExtra verbExtra = getVerbExtra(ve);
                             if(verbExtra == VerbExtra.NONE)
