@@ -72,24 +72,11 @@ public class DatabaseManager {
         return count;
     }
 
-    public List<Word> getAllWords() {
-        List<Word> words = null;
-        try {
-            PreparedQuery<Word> query = getHelper().getWordDao().queryBuilder().where()
-                                                                               .eq("book_name", "John")
-                                                                               .and()
-                                                                               .eq("chapter_nr", 1).prepare();
-            words = getHelper().getWordDao().query(query);
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return words;
-    }
-
     public List<Word> getChapter(String book, int chapter) {
         List<Word> list = null;
         try {
             PreparedQuery<Word> query = getHelper().getWordDao().queryBuilder()
+                    .orderBy("word_nr", true)
                     .where()
                     .eq("book_name", book)
                     .and()

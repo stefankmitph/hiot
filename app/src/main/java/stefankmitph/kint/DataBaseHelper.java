@@ -19,7 +19,7 @@ import stefankmitph.model.Word;
 
 public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
-    private static String DB_PATH = "/data/data/stefankmitph.app1/databases/";
+    private static String DB_PATH = "/data/data/stefankmitph.kint/databases/";
 
     private static String DB_NAME = "test_db";
 
