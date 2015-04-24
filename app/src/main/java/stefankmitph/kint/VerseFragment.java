@@ -115,8 +115,7 @@ public class VerseFragment extends Fragment {
 
     private LinearLayout getLayout(Context context, int index) {
 
-        SharedPreferences sharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        Bundle prefs = provider.getPreferences();
 
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setPadding(10, 20, 30, 40);
@@ -175,17 +174,17 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setText(words.get(index).getFunctional());
         textViewConcordance.setText(words.get(index).getConcordance());
 
-        boolean showStrongs = sharedPrefs.getBoolean("show_strongs", false);
+        boolean showStrongs = prefs.getBoolean("show_strongs", false);
         if(showStrongs)
             linearLayout.addView(textViewStrongs);
 
         linearLayout.addView(textViewWord);
 
-        boolean showConcordance = sharedPrefs.getBoolean("show_concordance", false);
+        boolean showConcordance = prefs.getBoolean("show_concordance", false);
         if(showConcordance)
             linearLayout.addView(textViewConcordance);
 
-        boolean showFunctional = sharedPrefs.getBoolean("show_functional", false);
+        boolean showFunctional = prefs.getBoolean("show_functional", false);
         if(showFunctional)
             linearLayout.addView(textViewFunctional);
 

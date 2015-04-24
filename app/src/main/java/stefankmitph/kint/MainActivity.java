@@ -1,9 +1,11 @@
 package stefankmitph.kint;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -96,6 +98,20 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
     @Override
     public Typeface getTypeface() {
         return typeface;
+    }
+
+    @Override
+    public Bundle getPreferences() {
+
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("show_strongs", sharedPrefs.getBoolean("show_strongs", true));
+        bundle.putBoolean("show_concordance", sharedPrefs.getBoolean("show_concordance", true));
+        bundle.putBoolean("show_functional", sharedPrefs.getBoolean("show_functional", true));
+
+        return bundle;
     }
 
 

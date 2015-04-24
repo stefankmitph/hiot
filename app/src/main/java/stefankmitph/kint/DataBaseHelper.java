@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import stefankmitph.model.Concordance;
 import stefankmitph.model.Strongs;
 import stefankmitph.model.Word;
 
@@ -167,18 +165,6 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return wordDao;
-    }
-
-    private Dao<Concordance, Integer> concordanceDao;
-    public Dao<Concordance, Integer> getConcordanceDao() {
-        if(concordanceDao == null) {
-            try {
-                concordanceDao = getDao(Concordance.class);
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return concordanceDao;
     }
 
     private Dao<Strongs, Integer> strongsDao;
