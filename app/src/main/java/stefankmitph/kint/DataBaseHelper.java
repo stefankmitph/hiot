@@ -34,7 +34,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
      */
     public DataBaseHelper(Context context) {
 
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 4);
         this.myContext = context;
     }
 
@@ -147,7 +147,11 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-
+        try {
+            copyDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
