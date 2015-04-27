@@ -11,11 +11,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,15 +104,41 @@ public class VerseFragment extends Fragment {
                 ));
         layout.setPadding(10, 10, 10, 10);
 
-        int count = provider.getWords(verse).size();
-        for(int i = 0; i < count; i++) {
+        List<Word> words = provider.getWords(verse);
+        if(words == null) {
+            LinearLayout linearLayout = new LinearLayout(context);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setPadding(32, 32, 32, 32);
+            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            ));
 
-            LinearLayout linearLayout = getLayout(context, i);
+            TextView textViewErrorText = new TextView(context);
+            textViewErrorText.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+            textViewErrorText.setText(context.getString(R.string.missing_verse_text));
 
+            TextView textViewErrorLink = new TextView(context);
+            //textViewErrorLink.setText(context.getString(R.string.missing_verse_link));
+            textViewErrorLink.setText(Html.fromHtml("For more information <a href='http://en.wikipedia.org/wiki/List_of_Bible_verses_not_included_in_modern_translations'>this link</a>"));
+            textViewErrorLink.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+            textViewErrorLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-            layout.addView(linearLayout);
+            linearLayout.addView(textViewErrorText);
+            linearLayout.addView(textViewErrorLink);
+
+            ((ViewGroup) contentView).addView(linearLayout);
         }
-        ((ViewGroup)contentView).addView(layout);
+        else {
+            int count = words.size();
+            for (int i = 0; i < count; i++) {
+
+                LinearLayout linearLayout = getLayout(context, i);
+
+                layout.addView(linearLayout);
+            }
+            ((ViewGroup) contentView).addView(layout);
+        }
         return contentView; // super.onCreateView(inflater, container, savedInstanceState);
     }
 

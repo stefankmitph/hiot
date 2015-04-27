@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="missing_verse_text">This verse cannot be displayed because it\'s not included in the GNT Nestle 1904! For more information visit http://en.wikipedia.org/wiki/List_of_Bible_verses_not_included_in_modern_translations</string>
+</resources>

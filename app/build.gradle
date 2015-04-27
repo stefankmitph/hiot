@@ -5,7 +5,7 @@ android {
         sign {
             keyAlias 'kintkey'
             keyPassword 'topica'
-            storeFile file('C:/Users/KumpitschS/repo/java/kint/signed.jks')
+            storeFile file('../signed.jks')
             storePassword 'topica'
         }
     }

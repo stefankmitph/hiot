@@ -53,5 +53,6 @@
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
     <string name="text_github">Feel free to contribute, copy or steal or whatever you like to do with this code @ <a href="https://github.com/stefankmitph/kint">github.com/stefankmitph/kint</a></string>
-
+    <string name="missing_verse_text">This verse cannot be displayed because it\'s not included in the GNT Nestle 1904!</string>
+    <string name="missing_verse_link">For more information visit <a href="http://en.wikipedia.org/wiki/List_of_Bible_verses_not_included_in_modern_translations">this link</a>.</string>
 </resources>
