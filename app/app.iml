@@ -82,7 +82,7 @@
     <orderEntry type="library" exported="" name="opencsv-2.4" level="project" />
     <orderEntry type="library" exported="" name="progressfragment-1.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
-    <orderEntry type="library" exported="" name="ormlite-android-4.45" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
+    <orderEntry type="library" exported="" name="ormlite-android-4.45" level="project" />
   </component>
 </module>

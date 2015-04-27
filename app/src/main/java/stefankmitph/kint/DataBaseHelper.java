@@ -1,14 +1,19 @@
 package stefankmitph.kint;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.preference.PreferenceManager;
+import android.provider.SyncStateContract;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +28,10 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static String DB_NAME = "test_db";
 
+    private static final String SP_KEY_DB_VER = "db_ver";
+
+    private static final int DB_VERSION = 6;
+
     private SQLiteDatabase myDataBase;
 
     private final Context myContext;
@@ -34,8 +43,30 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
      */
     public DataBaseHelper(Context context) {
 
-        super(context, DB_NAME, null, 4);
+        super(context, DB_NAME, null, DB_VERSION);
         this.myContext = context;
+        initialize();
+    }
+
+    private void initialize() {
+        if (checkDataBase()) {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(myContext);
+            int dbVersion = prefs.getInt(SP_KEY_DB_VER, 1);
+            if (DB_VERSION != dbVersion) {
+                File dbFile = myContext.getDatabasePath(DB_NAME);
+                if (!dbFile.delete()) {
+                    Log.w("stefankmitph.kint", "Unable to update database");
+                }
+            }
+        }
+        if (!checkDataBase()) {
+            try {
+                createDataBase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -143,15 +174,12 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
+        //openDataBase();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            copyDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
