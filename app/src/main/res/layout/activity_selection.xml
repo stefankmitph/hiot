@@ -1,84 +1,94 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="stefankmitph.kint.SelectionActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Koine Interlinear New Testament"
-        android:paddingBottom="8dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="stefankmitph.kint.SelectionActivity">
 
-    <TextView
-        android:id="@+id/textView_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Free and open source version of the Greek New Testament including Strong's references, concordances and lemmas."
-        android:layout_below="@id/textView_title"
-        android:paddingBottom="8dp"/>
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Koine Interlinear New Testament"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textView_github"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_github"
-        android:layout_below="@id/textView_description"/>
+        <TextView
+            android:id="@+id/textView_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_title"
+            android:paddingBottom="8dp"
+            android:text="Free and open source version of the Greek New Testament including Strong's references, concordances and lemmas." />
 
-    <TextView android:text="@string/booklabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/booklabel"
-        android:layout_below="@id/textView_github"
-        android:paddingTop="16dp"/>
+        <TextView
+            android:id="@+id/textView_github"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_description"
+            android:text="@string/text_github" />
 
-    <Spinner
-        android:id="@+id/spinnerbooks"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/booklabel"
-        android:entries="@array/books"/>
+        <TextView
+            android:id="@+id/booklabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_github"
+            android:paddingTop="16dp"
+            android:text="@string/booklabel"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView android:text="@string/chapterlabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@id/spinnerbooks"
-        android:id="@+id/chapterlabel"/>
+        <Spinner
+            android:id="@+id/spinnerbooks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/booklabel"
+            android:entries="@array/books"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Spinner
-        android:id="@+id/spinnerchapters"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/chapterlabel"
-        android:entries="@array/books"/>
+        <TextView
+            android:id="@+id/chapterlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerbooks"
+            android:text="@string/chapterlabel"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView android:text="@string/verselabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@id/spinnerchapters"
-        android:id="@+id/verselabel"/>
+        <Spinner
+            android:id="@+id/spinnerchapters"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chapterlabel"
+            android:entries="@array/books"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Spinner
-        android:id="@+id/spinnerverses"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/verselabel"
-        android:entries="@array/books"/>
+        <TextView
+            android:id="@+id/verselabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerchapters"
+            android:text="@string/verselabel"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="go"
-        android:id="@+id/buttonGo"
-        android:layout_below="@id/spinnerverses"/>
-</RelativeLayout>
+        <Spinner
+            android:id="@+id/spinnerverses"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/verselabel"
+            android:entries="@array/books"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/buttonGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerverses"
+            android:text="go" />
+    </RelativeLayout>
+</ScrollView>

@@ -30,7 +30,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String SP_KEY_DB_VER = "db_ver";
 
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 8;
 
     private SQLiteDatabase myDataBase;
 

@@ -8,6 +8,7 @@
         android:label="kint"
         android:theme="@style/AppTheme" >
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:name=".SelectionActivity"
             android:label="kint"
             android:theme="@style/Theme.AppCompat.NoActionBar">
