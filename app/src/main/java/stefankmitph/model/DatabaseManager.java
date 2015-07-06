@@ -2,14 +2,16 @@ package stefankmitph.model;
 
 import android.content.Context;
 
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.PreparedStmt;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import stefankmitph.kint.DataBaseHelper;
+import stefankmitph.hiot.DataBaseHelper;
 
 /**
  * Created by stefankmitph on 19.04.2015.
@@ -45,8 +47,8 @@ public class DatabaseManager {
         long count = 0;
         try {
             List<Word> list = getHelper().getWordDao().queryBuilder()
-                    .groupByRaw("book_name, chapter_nr")
-                    .where().eq("book_name", book_name)
+                    .groupByRaw("book, chapter")
+                    .where().eq("book", book_name)
                     .query();
 
             count = list.size();
@@ -61,8 +63,8 @@ public class DatabaseManager {
         long count = 0;
         try {
             List<Word> list = getHelper().getWordDao().queryBuilder()
-                    .groupByRaw("book_name, chapter_nr, verse_nr")
-                    .where().eq("book_name", book).and().eq("chapter_nr", chapter)
+                    .groupByRaw("book, chapter, verse")
+                    .where().eq("book", book).and().eq("chapter", chapter)
                     .query();
 
             count = list.size();
@@ -76,11 +78,11 @@ public class DatabaseManager {
         List<Word> list = null;
         try {
             PreparedQuery<Word> query = getHelper().getWordDao().queryBuilder()
-                    .orderBy("word_nr", true)
+                    .orderBy("wordnr", true)
                     .where()
-                    .eq("book_name", book)
+                    .eq("book", book)
                     .and()
-                    .eq("chapter_nr", chapter)
+                    .eq("chapter", chapter)
                     .prepare();
 
             list = getHelper().getWordDao().query(query);
@@ -117,5 +119,23 @@ public class DatabaseManager {
         }
 
         return strongs;
+    }
+
+    public String[] getBooks() {
+        try {
+            GenericRawResults<String[]> rawResults =
+                    getHelper().getBooksDao().queryRaw(
+                            "select name from books");
+
+            List<String[]> results = rawResults.getResults();
+            String[] list = new String[results.size()];
+            for(int i = 0; i < results.size(); i++) {
+                list[i] = results.get(i)[0];
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

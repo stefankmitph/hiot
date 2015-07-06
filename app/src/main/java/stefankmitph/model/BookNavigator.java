@@ -146,4 +146,8 @@ public class BookNavigator {
         }
         return list;
     }
+
+    public String[] getBooks() {
+        return manager.getBooks();
+    }
 }

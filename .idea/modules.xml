@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kint.iml" filepath="$PROJECT_DIR$/kint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hiot.iml" filepath="$PROJECT_DIR$/hiot.iml" />
     </modules>
   </component>
 </project>

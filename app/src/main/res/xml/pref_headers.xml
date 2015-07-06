@@ -2,13 +2,13 @@
 
     <!-- These settings headers are only used on tablets. -->
 
-    <header android:fragment="stefankmitph.kint.SettingsActivity$GeneralPreferenceFragment"
+    <header android:fragment="stefankmitph.hiot.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
-    <header android:fragment="stefankmitph.kint.SettingsActivity$NotificationPreferenceFragment"
+    <header android:fragment="stefankmitph.hiot.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
-    <header android:fragment="stefankmitph.kint.SettingsActivity$DataSyncPreferenceFragment"
+    <header android:fragment="stefankmitph.hiot.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>

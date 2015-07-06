@@ -13,22 +13,22 @@ public class Word {
     private int id;
 
     @DatabaseField
-    private String book_name;
+    private String book;
 
     @DatabaseField
-    private int chapter_nr;
+    private int chapter;
 
     @DatabaseField
-    private int verse_nr;
+    private int verse;
 
     @DatabaseField
-    private int word_nr;
+    private int wordnr;
 
     @DatabaseField
     private String word;
 
     @DatabaseField
-    private String functional;
+    private String translit;
 
     @DatabaseField
     private String strongs;
@@ -49,12 +49,12 @@ public class Word {
         return word;
     }
 
-    public String getFunctional() {
-        return functional;
+    public String getTranslit() {
+        return translit;
     }
 
-    public int getWord_nr() {
-        return word_nr;
+    public int getWordnr() {
+        return wordnr;
     }
 
     public String getConcordance() {
@@ -63,7 +63,7 @@ public class Word {
         return "";
     }
 
-    public int getVerse_nr() {
-        return verse_nr;
+    public int getVerse() {
+        return verse;
     }
 }
