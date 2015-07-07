@@ -66,4 +66,8 @@ public class Word {
     public int getVerse() {
         return verse;
     }
+
+    public String getLemma() {
+        return lemma;
+    }
 }

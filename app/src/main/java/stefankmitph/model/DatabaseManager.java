@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.PreparedStmt;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -100,10 +99,10 @@ public class DatabaseManager {
             for(String n : nr) {
                 List<Strongs> item = getHelper().getStrongsDao().queryBuilder()
                         .where()
-                        .eq("nr", n)
+                        .eq("id", "H" + n)
                         .query();
                 if(item.size() > 0)
-                    list.add(item.get(0).getText());
+                    list.add(item.get(0).getTag());
             }
         } catch(SQLException e) {
             e.printStackTrace();

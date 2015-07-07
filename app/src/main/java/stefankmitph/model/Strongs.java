@@ -5,20 +5,17 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "strongs")
 public class Strongs {
-    @DatabaseField(generatedId=true)
-    private int id;
+    @DatabaseField
+    private String id;
 
     @DatabaseField
-    private int nr;
-
-    @DatabaseField
-    private String text;
+    private String tag;
 
     public Strongs() {
         // banana
     }
 
-    public String getText() {
-        return text;
+    public String getTag() {
+        return tag;
     }
 }

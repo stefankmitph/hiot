@@ -200,21 +200,28 @@ public class VerseFragment extends Fragment {
         textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
         textViewFunctional.setGravity(Gravity.RIGHT);
         textViewFunctional.setTag("textViewFunctional" + index);
-        textViewFunctional.setOnClickListener(new View.OnClickListener() {
+        /*textViewFunctional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String result = PosParser.get((String) ((TextView) v).getText());
+                String result = PosParser.get((String) ((TextView) v).getTag());
 
                 Toast toast = Toast.makeText(v.getContext(), result, Toast.LENGTH_LONG);
                 toast.show();
             }
-        });
+        });*/
+
+        TextView textViewLemma = new TextView(context);
+        textViewLemma.setTextAppearance(context, android.R.style.TextAppearance_Small);
+        textViewLemma.setTextColor(context.getResources().getColor(android.R.color.darker_gray));
+        textViewLemma.setGravity(Gravity.RIGHT);
+        textViewLemma.setTag("textViewLemma" + index);
 
         textViewStrongs.setText(words.get(index).getStrongs());
         textViewWord.setText(words.get(index).getWord());
         textViewFunctional.setText(words.get(index).getTranslit());
         textViewConcordance.setText(words.get(index).getConcordance());
+        textViewLemma.setText(words.get(index).getLemma());
 
         boolean showStrongs = prefs.getBoolean("show_strongs", false);
         if(showStrongs)
@@ -229,6 +236,10 @@ public class VerseFragment extends Fragment {
         boolean showFunctional = prefs.getBoolean("show_functional", false);
         if(showFunctional)
             linearLayout.addView(textViewFunctional);
+
+        boolean showLemma = prefs.getBoolean("show_lemma", false);
+        if(showLemma)
+            linearLayout.addView(textViewLemma);
 
         return linearLayout;
     }
