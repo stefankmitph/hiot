@@ -9,13 +9,13 @@
     <CheckBoxPreference
         android:key="show_concordance"
         android:title="Show Strongs Concordance"
-        android:summary="It shows the concordance translation of the word."
+        android:summary="Shows the english concordance."
         android:defaultValue="true" />
 
     <CheckBoxPreference
-        android:key="show_functional"
-        android:title="Show Functional Items"
-        android:summary="Shows the grammatical/functional entry. Tapping at it shows the entry."
+        android:key="show_transliteration"
+        android:title="Show Transliteration Items"
+        android:summary="Shows the transliteration entry."
         android:defaultValue="true" />
 
     <CheckBoxPreference
@@ -27,7 +27,7 @@
     <ListPreference
         android:title="Font Size of Hebrew Word"
         android:key="font_size_word"
-        android:defaultValue="0"
+        android:defaultValue="2"
         android:entries="@array/font_array"
         android:entryValues="@array/font_array_values"/>
 </PreferenceScreen>

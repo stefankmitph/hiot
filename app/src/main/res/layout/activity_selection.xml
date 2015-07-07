@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:text="Koine Interlinear New Testament"
+            android:text="@string/app_caption"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_title"
             android:paddingBottom="8dp"
-            android:text="Free and open source version of the Greek New Testament including Strong's references, concordances and lemmas." />
+            android:text="@string/app_description" />
 
         <TextView
             android:id="@+id/textView_github"
@@ -64,6 +64,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/chapterlabel"
+            android:entries="@array/chapter_array"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
@@ -79,6 +80,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/verselabel"
+            android:entries="@array/chapter_array"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button

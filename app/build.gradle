@@ -15,8 +15,8 @@ android {
         applicationId 'stefankmitph.hiot'
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 7
-        versionName "1.3"
+        versionCode 1
+        versionName "1.0.0"
         signingConfig signingConfigs.sign
     }
     buildTypes {

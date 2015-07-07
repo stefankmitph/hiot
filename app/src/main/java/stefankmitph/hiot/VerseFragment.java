@@ -195,12 +195,12 @@ public class VerseFragment extends Fragment {
         textViewConcordance.setTextColor(Color.rgb(230, 74, 69));
         textViewConcordance.setTag("textViewConcordance" + index);
 
-        TextView textViewFunctional = new TextView(context);
-        textViewFunctional.setTextAppearance(context, android.R.style.TextAppearance_Small);
-        textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
-        textViewFunctional.setGravity(Gravity.RIGHT);
-        textViewFunctional.setTag("textViewFunctional" + index);
-        /*textViewFunctional.setOnClickListener(new View.OnClickListener() {
+        TextView textViewTransliteration = new TextView(context);
+        textViewTransliteration.setTextAppearance(context, android.R.style.TextAppearance_Small);
+        textViewTransliteration.setTextColor(Color.rgb(77, 179, 179));
+        textViewTransliteration.setGravity(Gravity.RIGHT);
+        textViewTransliteration.setTag("textViewTransliteration" + index);
+        /*textViewTransliteration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -219,7 +219,7 @@ public class VerseFragment extends Fragment {
 
         textViewStrongs.setText(words.get(index).getStrongs());
         textViewWord.setText(words.get(index).getWord());
-        textViewFunctional.setText(words.get(index).getTranslit());
+        textViewTransliteration.setText(words.get(index).getTranslit());
         textViewConcordance.setText(words.get(index).getConcordance());
         textViewLemma.setText(words.get(index).getLemma());
 
@@ -233,9 +233,9 @@ public class VerseFragment extends Fragment {
         if(showConcordance)
             linearLayout.addView(textViewConcordance);
 
-        boolean showFunctional = prefs.getBoolean("show_functional", false);
+        boolean showFunctional = prefs.getBoolean("show_transliteration", false);
         if(showFunctional)
-            linearLayout.addView(textViewFunctional);
+            linearLayout.addView(textViewTransliteration);
 
         boolean showLemma = prefs.getBoolean("show_lemma", false);
         if(showLemma)

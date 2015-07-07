@@ -10,4 +10,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Books {
     @DatabaseField
     private String name;
+
+    @DatabaseField
+    private int nr;
 }

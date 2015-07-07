@@ -124,7 +124,7 @@ public class DatabaseManager {
         try {
             GenericRawResults<String[]> rawResults =
                     getHelper().getBooksDao().queryRaw(
-                            "select name from books");
+                            "select name from books order by nr asc");
 
             List<String[]> results = rawResults.getResults();
             String[] list = new String[results.size()];
