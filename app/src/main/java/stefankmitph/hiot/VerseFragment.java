@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +152,7 @@ public class VerseFragment extends Fragment {
         final TextView textViewStrongs = new TextView(context);
         textViewStrongs.setTag("textViewStrongs" + index);
         textViewStrongs.setTextAppearance(context, android.R.style.TextAppearance_Small);
+        textViewStrongs.setGravity(Gravity.RIGHT);
         textViewStrongs.setTextColor(Color.rgb(77, 179, 179));
         textViewStrongs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,20 +168,37 @@ public class VerseFragment extends Fragment {
             }
         });
 
+        String fontSizeWord = prefs.getString("font_size_word", "2");
+        int fontResId = 0;
+
+        switch(fontSizeWord) {
+            case "0": // small
+                fontResId = android.R.style.TextAppearance_Small;
+                break;
+            case "1": // medium
+                fontResId = android.R.style.TextAppearance_Medium;
+                break;
+            case "2": // medium
+                fontResId = android.R.style.TextAppearance_Large;
+                break;
+        }
+
         TextView textViewWord = new TextView(context);
-        textViewWord.setTextAppearance(context, android.R.style.TextAppearance_Large);
+        textViewWord.setTextAppearance(context, fontResId);
         textViewWord.setTypeface(typeface);
         textViewWord.setTextColor(Color.rgb(61, 76, 83));
         textViewWord.setTag("textViewWord" + index);
 
         TextView textViewConcordance = new TextView(context);
         textViewConcordance.setTextAppearance(context, android.R.style.TextAppearance_Holo_Small);
+        textViewConcordance.setGravity(Gravity.RIGHT);
         textViewConcordance.setTextColor(Color.rgb(230, 74, 69));
         textViewConcordance.setTag("textViewConcordance" + index);
 
         TextView textViewFunctional = new TextView(context);
         textViewFunctional.setTextAppearance(context, android.R.style.TextAppearance_Small);
         textViewFunctional.setTextColor(Color.rgb(77, 179, 179));
+        textViewFunctional.setGravity(Gravity.RIGHT);
         textViewFunctional.setTag("textViewFunctional" + index);
         textViewFunctional.setOnClickListener(new View.OnClickListener() {
             @Override

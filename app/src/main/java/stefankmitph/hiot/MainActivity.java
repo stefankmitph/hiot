@@ -108,6 +108,7 @@ public class MainActivity extends ActionBarActivity implements ActivityObjectPro
         bundle.putBoolean("show_strongs", sharedPrefs.getBoolean("show_strongs", true));
         bundle.putBoolean("show_concordance", sharedPrefs.getBoolean("show_concordance", true));
         bundle.putBoolean("show_functional", sharedPrefs.getBoolean("show_functional", true));
+        bundle.putString("font_size_word", sharedPrefs.getString("font_size_word", "2"));
 
         return bundle;
     }

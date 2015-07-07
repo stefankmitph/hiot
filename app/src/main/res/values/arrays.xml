@@ -12,4 +12,14 @@
         <item name="30">30</item>
         <item name="0">0</item>
     </string-array>
+    <string-array name="font_array">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="font_array_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

@@ -18,4 +18,10 @@
         android:summary="Shows the grammatical/functional entry. Tapping at it shows the entry."
         android:defaultValue="true" />
 
+    <ListPreference
+        android:title="Font Size of Hebrew Word"
+        android:key="font_size_word"
+        android:defaultValue="0"
+        android:entries="@array/font_array"
+        android:entryValues="@array/font_array_values"/>
 </PreferenceScreen>
